@@ -1,0 +1,25 @@
+Package: nmcMetIO
+Title: Meteorological Data IO in NMC.
+Version: 0.1.0
+Authors@R: 
+    person(given = "Kan",
+           family = "Dai",
+           role = c("aut", "cre"),
+           email = "kan.dai@foxmail.com")
+Description: Function used to retrieve meteorological data, such as
+    micaps format, CIMISS and so on.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    configr,
+    dplyr,
+    readr,
+    jsonlite,
+    stringr,
+    lubridate,
+    RProtoBuf,
+    raster,
+    data.table
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 6.1.1

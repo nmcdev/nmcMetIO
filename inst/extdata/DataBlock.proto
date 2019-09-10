@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package DataBlock;
+option java_package = "cn.gov.cma.cimiss.gds.server";
+option java_outer_classname = "DataBlock";
+
+message StringResult {
+	//0:Success,1:NotFoundException,2:UnsupportedEncodingException,3:InvalidRequestException,4:UnavailableException,5:TimedOutException,6:TException,101:Invalid dataPath or dataName,102:Decompress error,1001:Unknow error occured
+	int32 errorCode = 1;
+	string errorMessage = 2;
+	string name = 3;
+}
+
+message ByteArrayResult {
+	//0:Success,1:NotFoundException,2:UnsupportedEncodingException,3:InvalidRequestException,4:UnavailableException,5:TimedOutException,6:TException,101:Invalid dataPath or dataName,102:Decompress error,1001:Unknow error occured
+	int32 errorCode = 1;
+	string errorMessage = 2;
+	bytes byteArray = 3;//数据内容
+}
+
+message StringAndByteArrayResult {
+	//0:Success,1:NotFoundException,2:UnsupportedEncodingException,3:InvalidRequestException,4:UnavailableException,5:TimedOutException,6:TException,101:Invalid dataPath or dataName,102:Decompress error,1001:Unknow error occured
+	int32 errorCode = 1;
+	string errorMessage = 2;
+	string dataName = 3;//数据名称
+	bytes byteArray = 4;//数据内容
+}
+
+message FileInfoResult {
+	//0:Success,1:NotFoundException,2:UnsupportedEncodingException,3:InvalidRequestException,4:UnavailableException,5:TimedOutException,6:TException,101:Invalid dataPath or dataName,102:Decompress error,1001:Unknow error occured
+	int32 errorCode = 1;
+	string errorMessage = 2;
+	bool isFile = 3;//是否是文件(或者目录)
+	int64 fileSize = 4;//文件大小
+}
+
+message MapResult {
+	//0:Success,1:NotFoundException,2:UnsupportedEncodingException,3:InvalidRequestException,4:UnavailableException,5:TimedOutException,6:TException,101:Invalid dataPath or dataName,102:Decompress error,1001:Unknow error occured
+	int32 errorCode = 1;
+	string errorMessage = 2;
+	map<string, string> resultMap = 3;
+}
