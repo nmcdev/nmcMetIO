@@ -11,6 +11,28 @@ You can install the released version of nmcMetIO with:
 remotes::install_github("nmcdev/nmcMetIO")
 ```
 
+You can alse clone the repository and install the package based on the checkout.
+
+```
+# Change directory
+cd <somewhere/on/your/local/disc>
+
+# Clone repository
+git clone https://github.com/nmcdev/nmcMetIO.git
+
+# Start R
+R
+```
+As soon as you are in the interactive R shell:
+```r
+# Loading the devtools library
+library("devtools")
+
+# Install package
+devtools::install("Rmosmix")
+
+```
+
 ## 设置CIMISS和MICAPS服务器的地址及用户信息
 在系统用户目录下("C:\Users\用户名"), 新建文本文件config_met_io.ini, 里面内容模板为:
 ```
