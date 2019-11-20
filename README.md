@@ -7,8 +7,8 @@ Functions used to retrieve meteorological data, such as MICAPS format, MICAPS Ca
 You can install the released version of nmcMetIO with:
 
 ```r
-# install.packages("remotes")
-remotes::install_github("nmcdev/nmcMetIO")
+# install.packages("devtools")
+devtools::install_github("nmcdev/nmcMetIO")
 ```
 
 You can alse clone the repository and install the package based on the checkout.
