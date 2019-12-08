@@ -4,8 +4,12 @@
 \alias{retrieve_micaps_model_grid}
 \title{Retrieve micaps grid data from cassandra service.}
 \usage{
-retrieve_micaps_model_grid(directory, filename = NULL,
-  filter = "*.024", outList = FALSE)
+retrieve_micaps_model_grid(
+  directory,
+  filename = NULL,
+  filter = "*.024",
+  outList = FALSE
+)
 }
 \arguments{
 \item{directory}{: the directory on the micaps service}

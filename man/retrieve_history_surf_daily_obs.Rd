@@ -4,8 +4,13 @@
 \alias{retrieve_history_surf_daily_obs}
 \title{Download day history observations, one file for each month.}
 \usage{
-retrieve_history_surf_daily_obs(dateRange, elements = NULL,
-  staLevels = NULL, outFile = "day_rain_obs", outDir = ".")
+retrieve_history_surf_daily_obs(
+  dateRange,
+  elements = NULL,
+  staLevels = NULL,
+  outFile = "day_rain_obs",
+  outDir = "."
+)
 }
 \arguments{
 \item{dateRange}{: date range, c('YYYYMM','YYYYMM')}

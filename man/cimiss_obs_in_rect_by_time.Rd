@@ -4,9 +4,15 @@
 \alias{cimiss_obs_in_rect_by_time}
 \title{Retrieve station records from CIMISS in region by time.}
 \usage{
-cimiss_obs_in_rect_by_time(times, minLat, minLon, maxLat, maxLon,
+cimiss_obs_in_rect_by_time(
+  times,
+  minLat,
+  minLon,
+  maxLat,
+  maxLon,
   dataCode = "SURF_CHN_MUL_HOR_N",
-  elements = "Station_Id_C,Datetime,Lat,Lon,TEM")
+  elements = "Station_Id_C,Datetime,Lat,Lon,TEM"
+)
 }
 \arguments{
 \item{times}{: time for retrieve, 'YYYYMMDDHHMISS,YYYYMMDDHHMISS,...'}

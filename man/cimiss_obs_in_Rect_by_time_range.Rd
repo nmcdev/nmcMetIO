@@ -4,9 +4,15 @@
 \alias{cimiss_obs_in_Rect_by_time_range}
 \title{Retrieve station records from CIMISS by time and station ID.}
 \usage{
-cimiss_obs_in_Rect_by_time_range(timeRange, minLat, minLon, maxLat, maxLon,
+cimiss_obs_in_Rect_by_time_range(
+  timeRange,
+  minLat,
+  minLon,
+  maxLat,
+  maxLon,
   dataCode = "SURF_CHN_MUL_HOR_N",
-  elements = "Station_Id_C,Datetime,Lat,Lon,TEM")
+  elements = "Station_Id_C,Datetime,Lat,Lon,TEM"
+)
 }
 \arguments{
 \item{timeRange}{: time range for retrieve, "\link{YYYYMMDDHHMISS,YYYYMMDDHHMISS}",
@@ -28,12 +34,13 @@ like, "\link{201509010000,20150903060000}"}
 data frame of observations.
 }
 \description{
-Retrieve data by cimiss music API.
+\preformatted{Retrieve data by cimiss music API.
 You should install MUSIC java client.
 1) download MUSIC java client from http://10.20.76.55/cimissapiweb/page/apipages/ClientDocumentRight.jsp
 2) set environment variable
 CLASSPATH=C:/soft/music-lib/Ice.jar;C:/soft/music-lib/music-client-v1.4.0.jar;C:/soft/music-lib
 3) call java function
+}
 }
 \examples{
     elements <- "Station_Id_C,Station_Id_d,Station_Name,Station_levl,Datetime,Lat,Lon,PRE_Time_0808"

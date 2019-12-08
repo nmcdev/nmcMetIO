@@ -4,9 +4,18 @@
 \alias{cimiss_model_grid_in_rect}
 \title{Retrieve grid data from CIMISS service.}
 \usage{
-cimiss_model_grid_in_rect(time, minLat, minLon, maxLat, maxLon,
-  dataCode = "NAFP_FOR_FTM_HIGH_EC_GLB", fcstLevel = 0,
-  fcstEle = "TEF0", validTime = 0, outList = FALSE)
+cimiss_model_grid_in_rect(
+  time,
+  minLat,
+  minLon,
+  maxLat,
+  maxLon,
+  dataCode = "NAFP_FOR_FTM_HIGH_EC_GLB",
+  fcstLevel = 0,
+  fcstEle = "TEF0",
+  validTime = 0,
+  outList = FALSE
+)
 }
 \arguments{
 \item{time, }{model run time, like "2016081712"}

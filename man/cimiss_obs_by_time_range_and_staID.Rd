@@ -4,9 +4,14 @@
 \alias{cimiss_obs_by_time_range_and_staID}
 \title{Retrieve station records from CIMISS by time and station ID.}
 \usage{
-cimiss_obs_by_time_range_and_staID(timeRange, hourSeparate = NULL,
-  minSeparate = NULL, dataCode = "SURF_CHN_MUL_HOR_N",
-  elements = "Station_Id_C,Datetime,TEM", staIds = "54511")
+cimiss_obs_by_time_range_and_staID(
+  timeRange,
+  hourSeparate = NULL,
+  minSeparate = NULL,
+  dataCode = "SURF_CHN_MUL_HOR_N",
+  elements = "Station_Id_C,Datetime,TEM",
+  staIds = "54511"
+)
 }
 \arguments{
 \item{timeRange}{: time range for retrieve, "\link{YYYYMMDDHHMISS,YYYYMMDDHHMISS}",

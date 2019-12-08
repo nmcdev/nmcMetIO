@@ -4,9 +4,15 @@
 \alias{cimiss_model_point_by_time_and_level}
 \title{retrieve model point forecast data from CIMISS.}
 \usage{
-cimiss_model_point_by_time_and_level(time,
-  dataCode = "NAFP_FOR_FTM_HIGH_EC_GLB", fcstEle = "TEF0",
-  fcstLevel = 0, minVT = 0, maxVT = 240, latLons = "39.8/116.4667")
+cimiss_model_point_by_time_and_level(
+  time,
+  dataCode = "NAFP_FOR_FTM_HIGH_EC_GLB",
+  fcstEle = "TEF0",
+  fcstLevel = 0,
+  minVT = 0,
+  maxVT = 240,
+  latLons = "39.8/116.4667"
+)
 }
 \arguments{
 \item{time, }{run time for retrieve, 'YYYYMMDDHHMISS,YYYYMMDDHHMISS,...'}
