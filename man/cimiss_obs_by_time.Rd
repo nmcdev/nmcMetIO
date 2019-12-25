@@ -4,8 +4,11 @@
 \alias{cimiss_obs_by_time}
 \title{Retrieve station records from CIMISS by times.}
 \usage{
-cimiss_obs_by_time(times, dataCode = "SURF_CHN_MUL_HOR_N",
-  elements = "Station_Id_C,Station_Id_d,lat,lon,Datetime,TEM")
+cimiss_obs_by_time(
+  times,
+  dataCode = "SURF_CHN_MUL_HOR_N",
+  elements = "Station_Id_C,Station_Id_d,lat,lon,Datetime,TEM"
+)
 }
 \arguments{
 \item{times}{: time for retrieve, 'YYYYMMDDHHMISS,YYYYMMDDHHMISS,...'}
