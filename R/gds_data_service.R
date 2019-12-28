@@ -54,7 +54,7 @@ gds_concate_url <- function(requestType, directory, filename, filter){
   
   # construct url
   url = paste0("http://", config[['MICAPS']][['GDS_IP']], ":",
-               config[['MICAPS']][['GDS_PROT']], "/DataService?")
+               config[['MICAPS']][['GDS_PORT']], "/DataService?")
   url = paste(url, "requestType=", requestType, sep="")
   url = paste(url, "&directory=", directory, sep="")
   url = paste(url, "&fileName=", filename, sep="")

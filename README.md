@@ -29,7 +29,7 @@ As soon as you are in the interactive R shell:
 library("devtools")
 
 # Install package
-devtools::install("Rmosmix")
+devtools::install("nmcMetIO")
 
 ```
 

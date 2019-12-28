@@ -10,7 +10,7 @@
 #' @return data.table, or list(x, y, z, level, time, fhour)
 #' @export
 #'
-#' @example
+#' @examples
 #'   data <- retrieve_micaps_model_grid("ECMWF_HR/TMP/850/", filename="19033020.024")
 #'
 retrieve_micaps_model_grid <- function(directory, filename=NULL, filter="*.024", outList=FALSE){
@@ -194,7 +194,6 @@ retrieve_micaps_model_grid <- function(directory, filename=NULL, filter="*.024",
 #'
 #' @return : variable name.
 #'
-#' @examples
 retrieve_micaps_station_data_var_name <- function(vid){
   # define varaible name dictionary
   varNames <- list('1'='lon', '2'='lat', '3'='alt', '4'='grade', '5'='type',

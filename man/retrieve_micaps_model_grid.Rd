@@ -27,3 +27,7 @@ data.table, or list(x, y, z, level, time, fhour)
 \description{
 Retrieve micaps grid data from cassandra service.
 }
+\examples{
+  data <- retrieve_micaps_model_grid("ECMWF_HR/TMP/850/", filename="19033020.024")
+
+}
