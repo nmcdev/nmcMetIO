@@ -43,6 +43,26 @@ get_http_result <- function(interfaceId, params){
 }
 
 
+#' Convert observation data.frame to correct data type.
+#'
+#' @param obsData : data frame of observations.
+#'
+#' @return data frame of observations.
+#' @export
+#'
+#' @examples
+cimiss_obs_convert_type <- function(obsData){
+  for (name in colnames(obsData)){
+    if (startsWith(name, "Station")) next
+    if (name == "Datetime") {
+      obsData[[name]] <- lubridate::parse_date_time(obsData[[name]], "%Y%m%d%H%M%S")
+      next
+    }
+    obsData[[name]] <- as.numeric(obsData[[name]])
+  }
+}
+
+
 #' Get the observation latest time.
 #'
 #' @description
@@ -90,6 +110,7 @@ cimiss_get_obs_latest_time <- function(dataCode="SURF_CHN_MUL_HOR", latestTime=6
 #'
 #' @param times : time for retrieve, 'YYYYMMDDHHMISS,YYYYMMDDHHMISS,...'
 #' @param dataCode : dataset code, like "SURF_CHN_MUL_HOR", "SURF_CHN_MUL_HOR_N", and so on.
+#' @param transType: transform the return data frame's column type to datetime, numeric.
 #' @param staLevels: station levels, seperated by ',', "011,012,013" is National Reference Climate Station,
 #'                   Basic weather station, General weather station, ...
 #' @param eleValueRanges: elements value ranges, seperated by ';'
@@ -114,7 +135,7 @@ cimiss_get_obs_latest_time <- function(dataCode="SURF_CHN_MUL_HOR", latestTime=6
 cimiss_obs_by_time <- function(times,
                                dataCode="SURF_CHN_MUL_HOR_N",
                                staLevels=NULL, eleValueRanges=NULL, orderby=NULL, 
-                               limitCnt=NULL, distinct=FALSE,
+                               limitCnt=NULL, distinct=FALSE, transType=TRUE,
                                elements="Station_Id_C,Station_Id_d,lat,lon,Datetime,TEM"){
   
   # retrieve parameters
@@ -138,6 +159,7 @@ cimiss_obs_by_time <- function(times,
   
   # extract data
   data = result[['DS']]
+  if (transType) data <- cimiss_obs_convert_type(data)
   
   # return data
   return(data)
@@ -156,6 +178,7 @@ cimiss_obs_by_time <- function(times,
 #' @param maxLat : maximum latitude
 #' @param maxLon : maximum longitude
 #' @param dataCode : dataset code, like "SURF_CHN_MUL_HOR", "SURF_CHN_MUL_HOR_N", and so on.
+#' @param transType: transform the return data frame's column type to datetime, numeric.
 #' @param staLevels: station levels, seperated by ',', "011,012,013" is National Reference Climate Station,
 #'                   Basic weather station, General weather station, ...
 #' @param eleValueRanges: elements value ranges, seperated by ';'
@@ -177,7 +200,7 @@ cimiss_obs_by_time <- function(times,
 #'   data <- cimiss_obs_in_rect_by_time('20200206000000', 35, 110, 45, 120)
 #'
 cimiss_obs_in_rect_by_time <- function(times, minLat, minLon, maxLat, maxLon,
-                                       dataCode="SURF_CHN_MUL_HOR_N",
+                                       dataCode="SURF_CHN_MUL_HOR_N", transType=TRUE,
                                        staLevels=NULL, eleValueRanges=NULL, orderby=NULL, limitCnt=NULL,
                                        elements="Station_Id_C,Datetime,Lat,Lon,TEM"){
   
@@ -205,6 +228,7 @@ cimiss_obs_in_rect_by_time <- function(times, minLat, minLon, maxLat, maxLon,
   
   # extract data
   data = result[['DS']]
+  if (transType) data <- cimiss_obs_convert_type(data)
   
   # return data
   return(data)
@@ -224,6 +248,7 @@ cimiss_obs_in_rect_by_time <- function(times, minLat, minLon, maxLat, maxLon,
 #' @param maxLat : maximum latitude
 #' @param maxLon : maximum longitude
 #' @param dataCode : dataset code, like "SURF_CHN_MUL_HOR", "SURF_CHN_MUL_HOR_N", and so on.
+#' @param transType: transform the return data frame's column type to datetime, numeric.
 #' @param eleValueRanges: elements value ranges, seperated by ';'
 #'                        range, (a,) is >a, [a,) is >=a, (,a) is <a, (,a] is <=a,
 #'                               (a,b) is >a & <b, [a,b) is >=a & <b, (a,b] is >a & <=b,
@@ -246,7 +271,7 @@ cimiss_obs_in_rect_by_time <- function(times, minLat, minLon, maxLat, maxLon,
 #'         dataCode="SURF_CHN_MUL_DAY",elements=elements)
 #'
 cimiss_obs_in_rect_by_time_range <- function(timeRange, minLat, minLon, maxLat, maxLon,
-                                             dataCode="SURF_CHN_MUL_HOR_N",
+                                             dataCode="SURF_CHN_MUL_HOR_N", transType=TRUE,
                                              eleValueRanges=NULL, orderby=NULL, limitCnt=NULL,
                                              elements="Station_Id_C,Datetime,Lat,Lon,TEM"){
   
@@ -273,6 +298,7 @@ cimiss_obs_in_rect_by_time_range <- function(timeRange, minLat, minLon, maxLat, 
   
   # extract data
   data = result[['DS']]
+  if (transType) data <- cimiss_obs_convert_type(data)
   
   # return data
   return(data)
@@ -289,6 +315,7 @@ cimiss_obs_in_rect_by_time_range <- function(timeRange, minLat, minLon, maxLat, 
 #' @param adminCodes: administration(or province code), sperated by ",",
 #'                    like "110000" is Beijing, "440000" is Guangdong
 #' @param dataCode : dataset code, like "SURF_CHN_MUL_HOR", "SURF_CHN_MUL_HOR_N", and so on.
+#' @param transType: transform the return data frame's column type to datetime, numeric.
 #' @param staLevels: station levels, seperated by ',', "011,012,013" is National Reference Climate Station,
 #'                   Basic weather station, General weather station, ...
 #' @param eleValueRanges: elements value ranges, seperated by ';'
@@ -310,7 +337,7 @@ cimiss_obs_in_rect_by_time_range <- function(timeRange, minLat, minLon, maxLat, 
 #'   data <- cimiss_obs_in_admin_by_time('20200206000000', adminCodes="110000")
 #'
 cimiss_obs_in_admin_by_time <- function(times, adminCodes="110000",
-                                        dataCode="SURF_CHN_MUL_HOR_N",
+                                        dataCode="SURF_CHN_MUL_HOR_N", transType=TRUE,
                                         staLevels=NULL, eleValueRanges=NULL, orderby=NULL, limitCnt=NULL,
                                         elements="Station_Id_C,Datetime,Lat,Lon,TEM"){
   
@@ -335,6 +362,7 @@ cimiss_obs_in_admin_by_time <- function(times, adminCodes="110000",
   
   # extract data
   data = result[['DS']]
+  if (transType) data <- cimiss_obs_convert_type(data)
   
   # return data
   return(data)
@@ -352,6 +380,7 @@ cimiss_obs_in_admin_by_time <- function(times, adminCodes="110000",
 #' @param adminCodes: administration(or province code), sperated by ",",
 #'                    like "110000" is Beijing, "440000" is Guangdong
 #' @param dataCode : dataset code, like "SURF_CHN_MUL_HOR", "SURF_CHN_MUL_HOR_N", and so on.
+#' @param transType: transform the return data frame's column type to datetime, numeric.
 #' @param staLevels: station levels, seperated by ',', "011,012,013" is National Reference Climate Station,
 #'                   Basic weather station, General weather station, ...
 #' @param eleValueRanges: elements value ranges, seperated by ';'
@@ -373,7 +402,7 @@ cimiss_obs_in_admin_by_time <- function(times, adminCodes="110000",
 #'   data <- cimiss_obs_in_admin_by_time_range("[202002010000,20200203060000]", adminCodes="110000")
 #'
 cimiss_obs_in_admin_by_time_range <- function(timeRange, adminCodes="110000",
-                                              dataCode="SURF_CHN_MUL_HOR_N",
+                                              dataCode="SURF_CHN_MUL_HOR_N", transType=TRUE,
                                               staLevels=NULL, eleValueRanges=NULL, orderby=NULL, limitCnt=NULL,
                                               elements="Station_Id_C,Datetime,Lat,Lon,TEM"){
   
@@ -398,6 +427,7 @@ cimiss_obs_in_admin_by_time_range <- function(timeRange, adminCodes="110000",
   
   # extract data
   data = result[['DS']]
+  if (transType) data <- cimiss_obs_convert_type(data)
   
   # return data
   return(data)
@@ -414,6 +444,7 @@ cimiss_obs_in_admin_by_time_range <- function(timeRange, adminCodes="110000",
 #' @param basinCodes: basin codes, sperated by ",",
 #'                    like "CJLY" is Yangzi River, "sta_2480" is 2480 stations
 #' @param dataCode : dataset code, like "SURF_CHN_MUL_HOR", "SURF_CHN_MUL_HOR_N", and so on.
+#' @param transType: transform the return data frame's column type to datetime, numeric.
 #' @param staLevels: station levels, seperated by ',', "011,012,013" is National Reference Climate Station,
 #'                   Basic weather station, General weather station, ...
 #' @param eleValueRanges: elements value ranges, seperated by ';'
@@ -435,7 +466,7 @@ cimiss_obs_in_admin_by_time_range <- function(timeRange, adminCodes="110000",
 #'   data <- cimiss_obs_in_basin_by_time('20200206000000', basinCodes="CJLY")
 #'
 cimiss_obs_in_basin_by_time <- function(times, basinCodes="CJLY",
-                                        dataCode="SURF_CHN_MUL_HOR_N",
+                                        dataCode="SURF_CHN_MUL_HOR_N", transType=TRUE,
                                         staLevels=NULL, eleValueRanges=NULL, orderby=NULL, limitCnt=NULL,
                                         elements="Station_Id_C,Datetime,Lat,Lon,TEM"){
   
@@ -460,6 +491,7 @@ cimiss_obs_in_basin_by_time <- function(times, basinCodes="CJLY",
   
   # extract data
   data = result[['DS']]
+  if (transType) data <- cimiss_obs_convert_type(data)
   
   # return data
   return(data)
@@ -477,6 +509,7 @@ cimiss_obs_in_basin_by_time <- function(times, basinCodes="CJLY",
 #' @param basinCodes: basin codes, sperated by ",",
 #'                    like "CJLY" is Yangzi River, "sta_2480" is 2480 stations
 #' @param dataCode : dataset code, like "SURF_CHN_MUL_HOR", "SURF_CHN_MUL_HOR_N", and so on.
+#' @param transType: transform the return data frame's column type to datetime, numeric.
 #' @param staLevels: station levels, seperated by ',', "011,012,013" is National Reference Climate Station,
 #'                   Basic weather station, General weather station, ...
 #' @param eleValueRanges: elements value ranges, seperated by ';'
@@ -498,7 +531,7 @@ cimiss_obs_in_basin_by_time <- function(times, basinCodes="CJLY",
 #'   data <- cimiss_obs_in_basin_by_time_range("[202002010000,20200203060000]", basinCodes="CJLY")
 #'
 cimiss_obs_in_basin_by_time_range <- function(timeRange, basinCodes="CJLY",
-                                              dataCode="SURF_CHN_MUL_HOR_N",
+                                              dataCode="SURF_CHN_MUL_HOR_N", transType=TRUE,
                                               staLevels=NULL, eleValueRanges=NULL, orderby=NULL, limitCnt=NULL,
                                               elements="Station_Id_C,Datetime,Lat,Lon,TEM"){
   
@@ -523,6 +556,7 @@ cimiss_obs_in_basin_by_time_range <- function(timeRange, basinCodes="CJLY",
   
   # extract data
   data = result[['DS']]
+  if (transType) data <- cimiss_obs_convert_type(data)
   
   # return data
   return(data)
@@ -537,6 +571,7 @@ cimiss_obs_in_basin_by_time_range <- function(timeRange, basinCodes="CJLY",
 #'
 #' @param times : time for retrieve, 'YYYYMMDDHHMISS,YYYYMMDDHHMISS,...'
 #' @param dataCode : dataset code, like "SURF_CHN_MUL_HOR", "SURF_CHN_MUL_HOR_N", and so on.
+#' @param transType: transform the return data frame's column type to datetime, numeric.
 #' @param staLevels: station levels, seperated by ',', "011,012,013" is National Reference Climate Station,
 #'                   Basic weather station, General weather station, ...
 #' @param eleValueRanges: elements value ranges, seperated by ';'
@@ -559,7 +594,7 @@ cimiss_obs_in_basin_by_time_range <- function(timeRange, basinCodes="CJLY",
 #' }
 #'
 cimiss_obs_by_time_and_staIds <- function(times,
-                                          dataCode="SURF_CHN_MUL_HOR_N",
+                                          dataCode="SURF_CHN_MUL_HOR_N", transType=TRUE,
                                           staLevels=NULL, eleValueRanges=NULL, orderby=NULL, limitCnt=NULL,
                                           elements="Station_Id_C,Datetime,TEM",
                                           staIds="54511"){
@@ -585,6 +620,7 @@ cimiss_obs_by_time_and_staIds <- function(times,
   
   # extract data
   data = result[['DS']]
+  if (transType) data <- cimiss_obs_convert_type(data)
   
   # return data
   return(data)
@@ -600,6 +636,7 @@ cimiss_obs_by_time_and_staIds <- function(times,
 #' @param timeRange : time range for retrieve, "[YYYYMMDDHHMISS,YYYYMMDDHHMISS]",
 #'                    like, "[201509010000,20150903060000]"
 #' @param dataCode : dataset code, like "SURF_CHN_MUL_HOR", "SURF_CHN_MUL_HOR_N", and so on.
+#' @param transType: transform the return data frame's column type to datetime, numeric.
 #' @param hourSeparate: hour space, [1, 24], like 6: 0,6,12,18
 #' @param minSeparate: minute space, [1, 60], like 10: 0,10,20,30,40,50
 #' @param eleValueRanges: elements value ranges, seperated by ';'
@@ -622,7 +659,7 @@ cimiss_obs_by_time_and_staIds <- function(times,
 #' }
 #'
 cimiss_obs_by_time_range_and_staIds <- function(timeRange,
-                                                dataCode="SURF_CHN_MUL_HOR_N",
+                                                dataCode="SURF_CHN_MUL_HOR_N", transType=TRUE,
                                                 hourSeparate=NULL, minSeparate=NULL,
                                                 eleValueRanges=NULL, orderby=NULL, limitCnt=NULL,
                                                 elements="Station_Id_C,Datetime,TEM",
@@ -650,6 +687,7 @@ cimiss_obs_by_time_range_and_staIds <- function(timeRange,
   
   # extract data
   data = result[['DS']]
+  if (transType) data <- cimiss_obs_convert_type(data)
   
   # return data
   return(data)
@@ -663,6 +701,7 @@ cimiss_obs_by_time_range_and_staIds <- function(timeRange,
 #'     Refer to http://10.20.76.55/cimissapiweb/index_index.action
 #'
 #' @param dataCode : dataset code, like "SURF_CHN_MUL_HOR", "SURF_CHN_MUL_HOR_N", and so on.
+#' @param transType: transform the return data frame's column type to datetime, numeric.
 #' @param minYear: start year, like "2005"
 #' @param maxYear: end year, like "2015"
 #' @param minMD: start date, like "0125" is 01/25
@@ -686,7 +725,7 @@ cimiss_obs_by_time_range_and_staIds <- function(timeRange,
 #' }
 #'
 cimiss_obs_by_period <- function(minYear, maxYear, minMD, maxMD, dataCode="SURF_CHN_MUL_HOR_N",
-                                 eleValueRanges=NULL, orderby=NULL, limitCnt=NULL,
+                                 transType=TRUE, eleValueRanges=NULL, orderby=NULL, limitCnt=NULL,
                                  elements="Station_Id_C,Station_Id_d,lat,lon,Datetime,TEM"){
   
   # retrieve parameters
@@ -711,6 +750,7 @@ cimiss_obs_by_period <- function(minYear, maxYear, minMD, maxMD, dataCode="SURF_
   
   # extract data
   data = result[['DS']]
+  if (transType) data <- cimiss_obs_convert_type(data)
   
   # return data
   return(data)
@@ -724,6 +764,7 @@ cimiss_obs_by_period <- function(minYear, maxYear, minMD, maxMD, dataCode="SURF_
 #'     Refer to http://10.20.76.55/cimissapiweb/index_index.action
 #'
 #' @param dataCode : dataset code, like "SURF_CHN_MUL_HOR", "SURF_CHN_MUL_HOR_N", and so on.
+#' @param transType: transform the return data frame's column type to datetime, numeric.
 #' @param minYear: start year, like "2005"
 #' @param maxYear: end year, like "2015"
 #' @param minMD: start date, like "0125" is 01/25
@@ -747,7 +788,7 @@ cimiss_obs_by_period <- function(minYear, maxYear, minMD, maxMD, dataCode="SURF_
 #' }
 #'
 cimiss_obs_by_period_and_staIds <- function(minYear, maxYear, minMD, maxMD, staIds="54511",
-                                            dataCode="SURF_CHN_MUL_HOR_N",
+                                            dataCode="SURF_CHN_MUL_HOR_N", transType=TRUE,
                                             eleValueRanges=NULL, orderby=NULL, limitCnt=NULL,
                                             elements="Station_Id_C,Station_Id_d,lat,lon,Datetime,TEM"){
   
@@ -774,6 +815,7 @@ cimiss_obs_by_period_and_staIds <- function(minYear, maxYear, minMD, maxMD, staI
   
   # extract data
   data = result[['DS']]
+  if (transType) data <- cimiss_obs_convert_type(data)
   
   # return data
   return(data)
@@ -787,6 +829,7 @@ cimiss_obs_by_period_and_staIds <- function(minYear, maxYear, minMD, maxMD, staI
 #'     Refer to http://10.20.76.55/cimissapiweb/index_index.action
 #'
 #' @param dataCode : dataset code, like "SURF_CHN_MUL_HOR", "SURF_CHN_MUL_HOR_N", and so on.
+#' @param transType: transform the return data frame's column type to datetime, numeric.
 #' @param minYear: start year, like "2005"
 #' @param maxYear: end year, like "2015"
 #' @param minMD: start date, like "0125" is 01/25
@@ -812,7 +855,7 @@ cimiss_obs_by_period_and_staIds <- function(minYear, maxYear, minMD, maxMD, staI
 #' }
 #'
 cimiss_obs_in_admin_by_period <- function(minYear, maxYear, minMD, maxMD, adminCodes="110000",
-                                          dataCode="SURF_CHN_MUL_HOR_N",
+                                          dataCode="SURF_CHN_MUL_HOR_N", transType=TRUE,
                                           eleValueRanges=NULL, orderby=NULL, limitCnt=NULL,
                                           elements="Station_Id_C,Station_Id_d,lat,lon,Datetime,TEM"){
   
@@ -839,6 +882,7 @@ cimiss_obs_in_admin_by_period <- function(minYear, maxYear, minMD, maxMD, adminC
   
   # extract data
   data = result[['DS']]
+  if (transType) data <- cimiss_obs_convert_type(data)
   
   # return data
   return(data)

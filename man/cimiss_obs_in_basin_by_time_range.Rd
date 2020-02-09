@@ -8,6 +8,7 @@ cimiss_obs_in_basin_by_time_range(
   timeRange,
   basinCodes = "CJLY",
   dataCode = "SURF_CHN_MUL_HOR_N",
+  transType = TRUE,
   staLevels = NULL,
   eleValueRanges = NULL,
   orderby = NULL,
@@ -25,6 +26,8 @@ like, "\link{201509010000,20150903060000}"}
 
 \item{basinCodes:}{basin codes, sperated by ",",
 like "CJLY" is Yangzi River, "sta_2480" is 2480 stations}
+
+\item{transType:}{transform the return data frame's column type to datetime, numeric.}
 
 \item{staLevels:}{station levels, seperated by ',', "011,012,013" is National Reference Climate Station,
 Basic weather station, General weather station, ...}

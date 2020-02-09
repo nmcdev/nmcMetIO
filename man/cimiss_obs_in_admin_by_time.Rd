@@ -8,6 +8,7 @@ cimiss_obs_in_admin_by_time(
   times,
   adminCodes = "110000",
   dataCode = "SURF_CHN_MUL_HOR_N",
+  transType = TRUE,
   staLevels = NULL,
   eleValueRanges = NULL,
   orderby = NULL,
@@ -24,6 +25,8 @@ cimiss_obs_in_admin_by_time(
 
 \item{adminCodes:}{administration(or province code), sperated by ",",
 like "110000" is Beijing, "440000" is Guangdong}
+
+\item{transType:}{transform the return data frame's column type to datetime, numeric.}
 
 \item{staLevels:}{station levels, seperated by ',', "011,012,013" is National Reference Climate Station,
 Basic weather station, General weather station, ...}

@@ -7,6 +7,7 @@
 cimiss_obs_by_time_range_and_staIds(
   timeRange,
   dataCode = "SURF_CHN_MUL_HOR_N",
+  transType = TRUE,
   hourSeparate = NULL,
   minSeparate = NULL,
   eleValueRanges = NULL,
@@ -25,6 +26,8 @@ like, "\link{201509010000,20150903060000}"}
 \item{elements}{: elements for retrieve, 'ele1,ele2,...'}
 
 \item{staIds}{: station ids, 'xxxxx,xxxxx,...'}
+
+\item{transType:}{transform the return data frame's column type to datetime, numeric.}
 
 \item{hourSeparate:}{hour space, \link{1, 24}, like 6: 0,6,12,18}
 

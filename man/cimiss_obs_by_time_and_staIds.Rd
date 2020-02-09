@@ -7,6 +7,7 @@
 cimiss_obs_by_time_and_staIds(
   times,
   dataCode = "SURF_CHN_MUL_HOR_N",
+  transType = TRUE,
   staLevels = NULL,
   eleValueRanges = NULL,
   orderby = NULL,
@@ -23,6 +24,8 @@ cimiss_obs_by_time_and_staIds(
 \item{elements}{: elements for retrieve, 'ele1,ele2,...'}
 
 \item{staIds}{: station ids, 'xxxxx,xxxxx,...'}
+
+\item{transType:}{transform the return data frame's column type to datetime, numeric.}
 
 \item{staLevels:}{station levels, seperated by ',', "011,012,013" is National Reference Climate Station,
 Basic weather station, General weather station, ...}

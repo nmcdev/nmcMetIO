@@ -8,6 +8,7 @@ cimiss_obs_in_basin_by_time(
   times,
   basinCodes = "CJLY",
   dataCode = "SURF_CHN_MUL_HOR_N",
+  transType = TRUE,
   staLevels = NULL,
   eleValueRanges = NULL,
   orderby = NULL,
@@ -24,6 +25,8 @@ cimiss_obs_in_basin_by_time(
 
 \item{basinCodes:}{basin codes, sperated by ",",
 like "CJLY" is Yangzi River, "sta_2480" is 2480 stations}
+
+\item{transType:}{transform the return data frame's column type to datetime, numeric.}
 
 \item{staLevels:}{station levels, seperated by ',', "011,012,013" is National Reference Climate Station,
 Basic weather station, General weather station, ...}

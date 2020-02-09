@@ -11,6 +11,7 @@ cimiss_obs_in_rect_by_time(
   maxLat,
   maxLon,
   dataCode = "SURF_CHN_MUL_HOR_N",
+  transType = TRUE,
   staLevels = NULL,
   eleValueRanges = NULL,
   orderby = NULL,
@@ -32,6 +33,8 @@ cimiss_obs_in_rect_by_time(
 \item{dataCode}{: dataset code, like "SURF_CHN_MUL_HOR", "SURF_CHN_MUL_HOR_N", and so on.}
 
 \item{elements}{: elements for retrieve, 'ele1,ele2,...'}
+
+\item{transType:}{transform the return data frame's column type to datetime, numeric.}
 
 \item{staLevels:}{station levels, seperated by ',', "011,012,013" is National Reference Climate Station,
 Basic weather station, General weather station, ...}

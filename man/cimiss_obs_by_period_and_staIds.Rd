@@ -11,6 +11,7 @@ cimiss_obs_by_period_and_staIds(
   maxMD,
   staIds = "54511",
   dataCode = "SURF_CHN_MUL_HOR_N",
+  transType = TRUE,
   eleValueRanges = NULL,
   orderby = NULL,
   limitCnt = NULL,
@@ -21,6 +22,8 @@ cimiss_obs_by_period_and_staIds(
 \item{dataCode}{: dataset code, like "SURF_CHN_MUL_HOR", "SURF_CHN_MUL_HOR_N", and so on.}
 
 \item{elements}{: elements for retrieve, 'ele1,ele2,...'}
+
+\item{transType:}{transform the return data frame's column type to datetime, numeric.}
 
 \item{minYear:}{start year, like "2005"}
 

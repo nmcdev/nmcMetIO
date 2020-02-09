@@ -11,6 +11,7 @@ cimiss_obs_in_rect_by_time_range(
   maxLat,
   maxLon,
   dataCode = "SURF_CHN_MUL_HOR_N",
+  transType = TRUE,
   eleValueRanges = NULL,
   orderby = NULL,
   limitCnt = NULL,
@@ -32,6 +33,8 @@ like, "\link{201509010000,20150903060000}"}
 \item{dataCode}{: dataset code, like "SURF_CHN_MUL_HOR", "SURF_CHN_MUL_HOR_N", and so on.}
 
 \item{elements}{: elements for retrieve, 'ele1,ele2,...'}
+
+\item{transType:}{transform the return data frame's column type to datetime, numeric.}
 
 \item{eleValueRanges:}{elements value ranges, seperated by ';'
 range, (a,) is >a, [a,) is >=a, (,a) is <a, (,a] is <=a,
