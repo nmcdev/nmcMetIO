@@ -622,11 +622,11 @@ cimiss_obs_by_time_and_staIds <- function(times,
 #' }
 #'
 cimiss_obs_by_time_range_and_staIds <- function(timeRange,
-                                               dataCode="SURF_CHN_MUL_HOR_N",
-                                               hourSeparate=NULL, minSeparate=NULL,
-                                               eleValueRanges=NULL, orderby=NULL, limitCnt=NULL,
-                                               elements="Station_Id_C,Datetime,TEM",
-                                               staIds="54511"){
+                                                dataCode="SURF_CHN_MUL_HOR_N",
+                                                hourSeparate=NULL, minSeparate=NULL,
+                                                eleValueRanges=NULL, orderby=NULL, limitCnt=NULL,
+                                                elements="Station_Id_C,Datetime,TEM",
+                                                staIds="54511"){
   
   # retrieve parameters
   params = list()
