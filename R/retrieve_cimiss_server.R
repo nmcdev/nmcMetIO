@@ -60,6 +60,7 @@ cimiss_obs_convert_type <- function(obsData){
     }
     obsData[[name]] <- as.numeric(obsData[[name]])
   }
+  return(obsData)
 }
 
 
