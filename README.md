@@ -34,7 +34,7 @@ devtools::install("nmcMetIO")
 ```
 
 ## 设置CIMISS和MICAPS服务器的地址及用户信息
-在系统用户目录下("C:\Users\用户名"), 新建文本文件config_met_io.ini, 里面内容模板为:
+在系统用户目录下("C:\Users\用户名\\.nmcdev\\"或"/home/用户名/.nmcdev/"), 新建文本文件config.ini, 里面内容模板为:
 ```
 [CIMISS]
 DNS = xx.xx.xx.xx
