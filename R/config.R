@@ -5,11 +5,15 @@
 #'
 get_config_from_rcfile <- function(){
   # construct configure file
-  config.file <- file.path(path.expand('~'), "config_met_io.ini")
+  if(Sys.info()[['sysname']] == "Windows"){
+    config.file <- file.path(Sys.getenv("USERPROFILE"), ".nmcdev", "config.ini")
+  }else{
+    config.file <- file.path(path.expand("~"), ".nmcdev", "config.ini")
+  }
   
   # check configure file
   if(!file.exists(config.file)){
-    warning(paste0("config_met_io.ini does not exist in ", path.expand('~')), call. = FALSE)
+    warning(paste0(config.file, " does not exist."), call. = FALSE)
     return(NULL)
   }
   

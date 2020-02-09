@@ -7,6 +7,11 @@
 cimiss_obs_by_time(
   times,
   dataCode = "SURF_CHN_MUL_HOR_N",
+  staLevels = NULL,
+  eleValueRanges = NULL,
+  orderby = NULL,
+  limitCnt = NULL,
+  distinct = FALSE,
   elements = "Station_Id_C,Station_Id_d,lat,lon,Datetime,TEM"
 )
 }
@@ -17,18 +22,34 @@ cimiss_obs_by_time(
 
 \item{elements}{: elements for retrieve, 'ele1,ele2,...'}
 
-\item{staIds}{: station ids, 'xxxxx,xxxxx,...'}
+\item{staLevels:}{station levels, seperated by ',', "011,012,013" is National Reference Climate Station,
+Basic weather station, General weather station, ...}
+
+\item{eleValueRanges:}{elements value ranges, seperated by ';'
+range, (a,) is >a, [a,) is >=a, (,a) is <a, (,a] is <=a,
+(a,b) is >a & <b, [a,b) is >=a & <b, (a,b] is >a & <=b,
+[a,b] is >=a & <=b
+list, a,b,c;
+e.g., "VIS:(,1000);RHU:(70,)", "Q_PRE_1h:0,3,4" is PRE quantity is credible.
+
+[a,) is >=a, (,a) is <a, (,a]: R:a,)\%20is\%20\%3E=a,\%20(,a)\%20is\%20\%3Ca,\%20(,a
+[a,b) is >=a & <b, (a,b]: R:a,b)\%20is\%20\%3E=a\%20&\%20\%3Cb,\%20(a,b
+[a,b]: R:a,b}
+
+\item{orderby:}{elements order, seperated by ',', like
+"TEM:asc" is ascending order temperature,
+"TEM:asc,SUM_PRE_1h:desc" is ascending order temperature first and descending PRE_1h.}
+
+\item{limitCnt:}{the number of maximum returned records}
+
+\item{distinct:}{return unique records, default is false.}
 }
 \value{
 data frame of observations.
 }
 \description{
-\preformatted{Retrieve data by cimiss music API.
-You should install MUSIC java client.
-1) download MUSIC java client from http://10.20.76.55/cimissapiweb/page/apipages/ClientDocumentRight.jsp
-2) set environment variable
-CLASSPATH=C:/soft/music-lib/Ice.jar;C:/soft/music-lib/music-client-v1.4.0.jar;C:/soft/music-lib
-3) call java function
+\preformatted{Retrieve data by cimiss music REST API.
+Refer to http://10.20.76.55/cimissapiweb/index_index.action
 }
 }
 \examples{

@@ -13,7 +13,7 @@
 #'
 gds_get_content <- function(directory, filename=NULL, filter="*.024"){
   
-  # read GDS DataBlock.proto
+  # read GDS DataBlock.proto (This file provided by Wang Ruotong)
   RProtoBuf::readProtoFiles(system.file("extdata/DataBlock.proto", package="nmcMetIO"))
   
   # get the latest filename
