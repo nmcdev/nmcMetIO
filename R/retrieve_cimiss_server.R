@@ -54,6 +54,8 @@ get_http_result <- function(interfaceId, params){
 cimiss_obs_convert_type <- function(obsData){
   for (name in colnames(obsData)){
     if (startsWith(name, "Station")) next
+    if (name %in% c("Province", "Country", "City", "Cnty", "Town",
+                    "DATA_ID", "REP_CORR_ID", "Admin_Code_CHN")) next
     if (name == "Datetime") {
       obsData[[name]] <- lubridate::parse_date_time(obsData[[name]], "%Y%m%d%H%M%S")
       next
