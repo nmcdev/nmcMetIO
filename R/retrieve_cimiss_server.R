@@ -69,13 +69,13 @@ cimiss_obs_convert_type <- function(obsData){
 #' Get the observation latest time.
 #'
 #' @description
-#'     Retrieve data by cimiss music REST API.
+#'     Retrieve data latest times by cimiss music REST API.
 #'     Refer to http://10.20.76.55/cimissapiweb/index_index.action
 #'
 #' @param dataCode : dataset code, like "SURF_CHN_MUL_HOR", "SURF_CHN_MUL_HOR_N", and so on.
-#' @param latestTime : latestTime, >0, like 2 is return the latest data in 2 hours.
+#' @param latestTime : latestTime > 0, like 2 is return the latest time in 2 hours.
 #'
-#' @return data frame of observations.
+#' @return the latest time, like '20200216020000'
 #' @export
 #'
 #' @examples
@@ -89,8 +89,8 @@ cimiss_get_obs_latest_time <- function(dataCode="SURF_CHN_MUL_HOR", latestTime=6
   params[["latestTime"]] <- as.character(latestTime)
   
   # Interface, refer to
-  # http://10.20.76.55/cimissapiweb/apicustomapiclassdefine_list.action?ids=getSurfEleByTime&apiclass=SURF_API
-  interfaceId = "getSurfEleByTime"
+  # http://10.20.76.55/cimissapiweb/apicustomapiclassdefine_list.action?ids=getSurfEleByTimeRange&apiclass=SURF_API
+  interfaceId = "getSurfLatestTime"
   
   # retrieve data
   result <- get_http_result(interfaceId, params)
@@ -148,7 +148,7 @@ cimiss_obs_by_time <- function(times,
   if(!is.null(staLevels)) params[["staLevels"]] <- staLevels
   if(!is.null(eleValueRanges)) params[["eleValueRanges"]] <- eleValueRanges
   if(is.null(orderby)) params[["orderby"]] <- "Datetime:ASC" else params[["orderby"]] <- orderby
-  if(!is.null(limitCnt)) params[["limitCnt"]] <- limitCnt
+  if(!is.null(limitCnt)) params[["limitCnt"]] <- as.character(limitCnt)
   if(distinct) params[["distinct"]] <- "true"
   params[["elements"]] <- elements
   
@@ -219,7 +219,7 @@ cimiss_obs_in_rect_by_time <- function(times, minLat, minLon, maxLat, maxLon,
   if(!is.null(staLevels)) params[["staLevels"]] <- staLevels
   if(!is.null(eleValueRanges)) params[["eleValueRanges"]] <- eleValueRanges
   if(is.null(orderby)) params[["orderby"]] <- "Datetime:ASC" else params[["orderby"]] <- orderby
-  if(!is.null(limitCnt)) params[["limitCnt"]] <- limitCnt
+  if(!is.null(limitCnt)) params[["limitCnt"]] <- as.character(limitCnt)
 
   # Interface, refer to
   # http://10.20.76.55/cimissapiweb/apicustomapiclassdefine_list.action?ids=getSurfEleInRectByTime&apiclass=SURF_API
@@ -289,7 +289,7 @@ cimiss_obs_in_rect_by_time_range <- function(timeRange, minLat, minLon, maxLat, 
   params[["maxLon"]] <- as.character(maxLon)
   if(!is.null(eleValueRanges)) params[["eleValueRanges"]] <- eleValueRanges
   if(is.null(orderby)) params[["orderby"]] <- "Datetime:ASC" else params[["orderby"]] <- orderby
-  if(!is.null(limitCnt)) params[["limitCnt"]] <- limitCnt
+  if(!is.null(limitCnt)) params[["limitCnt"]] <- as.character(limitCnt)
   
   # Interface, refer to
   # http://10.20.76.55/cimissapiweb/apicustomapiclassdefine_list.action?ids=getSurfEleInRectByTimeRange&apiclass=SURF_API
@@ -353,7 +353,7 @@ cimiss_obs_in_admin_by_time <- function(times, adminCodes="110000",
   if(!is.null(staLevels)) params[["staLevels"]] <- staLevels
   if(!is.null(eleValueRanges)) params[["eleValueRanges"]] <- eleValueRanges
   if(is.null(orderby)) params[["orderby"]] <- "Datetime:ASC" else params[["orderby"]] <- orderby
-  if(!is.null(limitCnt)) params[["limitCnt"]] <- limitCnt
+  if(!is.null(limitCnt)) params[["limitCnt"]] <- as.character(limitCnt)
   
   # Interface, refer to
   # http://10.20.76.55/cimissapiweb/apicustomapiclassdefine_list.action?ids=getNafpEleGridByTimeAndLevelAndValidtime&apiclass=NAFP_API
@@ -418,7 +418,7 @@ cimiss_obs_in_admin_by_time_range <- function(timeRange, adminCodes="110000",
   if(!is.null(staLevels)) params[["staLevels"]] <- staLevels
   if(!is.null(eleValueRanges)) params[["eleValueRanges"]] <- eleValueRanges
   if(is.null(orderby)) params[["orderby"]] <- "Datetime:ASC" else params[["orderby"]] <- orderby
-  if(!is.null(limitCnt)) params[["limitCnt"]] <- limitCnt
+  if(!is.null(limitCnt)) params[["limitCnt"]] <- as.character(limitCnt)
   
   # Interface, refer to
   # http://10.20.76.55/cimissapiweb/apicustomapiclassdefine_list.action?ids=getNafpEleGridByTimeAndLevelAndValidtime&apiclass=NAFP_API
@@ -482,7 +482,7 @@ cimiss_obs_in_basin_by_time <- function(times, basinCodes="CJLY",
   if(!is.null(staLevels)) params[["staLevels"]] <- staLevels
   if(!is.null(eleValueRanges)) params[["eleValueRanges"]] <- eleValueRanges
   if(is.null(orderby)) params[["orderby"]] <- "Datetime:ASC" else params[["orderby"]] <- orderby
-  if(!is.null(limitCnt)) params[["limitCnt"]] <- limitCnt
+  if(!is.null(limitCnt)) params[["limitCnt"]] <- as.character(limitCnt)
   
   # Interface, refer to
   # http://10.20.76.55/cimissapiweb/apicustomapiclassdefine_list.action?ids=getNafpEleGridByTimeAndLevelAndValidtime&apiclass=NAFP_API
@@ -547,7 +547,7 @@ cimiss_obs_in_basin_by_time_range <- function(timeRange, basinCodes="CJLY",
   if(!is.null(staLevels)) params[["staLevels"]] <- staLevels
   if(!is.null(eleValueRanges)) params[["eleValueRanges"]] <- eleValueRanges
   if(is.null(orderby)) params[["orderby"]] <- "Datetime:ASC" else params[["orderby"]] <- orderby
-  if(!is.null(limitCnt)) params[["limitCnt"]] <- limitCnt
+  if(!is.null(limitCnt)) params[["limitCnt"]] <- as.character(limitCnt)
   
   # Interface, refer to
   # http://10.20.76.55/cimissapiweb/apicustomapiclassdefine_list.action?ids=getNafpEleGridByTimeAndLevelAndValidtime&apiclass=NAFP_API
@@ -608,7 +608,7 @@ cimiss_obs_by_time_and_staIds <- function(times,
   if(!is.null(staLevels)) params[["staLevels"]] <- staLevels
   if(!is.null(eleValueRanges)) params[["eleValueRanges"]] <- eleValueRanges
   if(is.null(orderby)) params[["orderby"]] <- "Datetime:ASC" else params[["orderby"]] <- orderby
-  if(!is.null(limitCnt)) params[["limitCnt"]] <- limitCnt
+  if(!is.null(limitCnt)) params[["limitCnt"]] <- as.character(limitCnt)
   params[["elements"]] <- elements
   params[["times"]] <- times
   params[["staIds"]] <- staIds
@@ -677,7 +677,7 @@ cimiss_obs_by_time_range_and_staIds <- function(timeRange,
   if(!is.null(minSeparate)) params[["minSeparate"]] <- as.character(minSeparate)
   if(!is.null(eleValueRanges)) params[["eleValueRanges"]] <- eleValueRanges
   if(is.null(orderby)) params[["orderby"]] <- "Datetime:ASC" else params[["orderby"]] <- orderby
-  if(!is.null(limitCnt)) params[["limitCnt"]] <- limitCnt
+  if(!is.null(limitCnt)) params[["limitCnt"]] <- as.character(limitCnt)
   params[["staIds"]] <- staIds
   
   # Interface, refer to
@@ -705,8 +705,8 @@ cimiss_obs_by_time_range_and_staIds <- function(timeRange,
 #'
 #' @param dataCode : dataset code, like "SURF_CHN_MUL_HOR", "SURF_CHN_MUL_HOR_N", and so on.
 #' @param transType: transform the return data frame's column type to datetime, numeric.
-#' @param minYear: start year, like "2005"
-#' @param maxYear: end year, like "2015"
+#' @param minYear: start year, like 2005
+#' @param maxYear: end year, like 2015
 #' @param minMD: start date, like "0125" is 01/25
 #' @param maxMD: end date, like "0205" is 02/25
 #' @param eleValueRanges: elements value ranges, seperated by ';'
@@ -740,7 +740,7 @@ cimiss_obs_by_period <- function(minYear, maxYear, minMD, maxMD, dataCode="SURF_
   params[["maxMD"]] <- maxMD
   if(!is.null(eleValueRanges)) params[["eleValueRanges"]] <- eleValueRanges
   if(is.null(orderby)) params[["orderby"]] <- "Datetime:ASC" else params[["orderby"]] <- orderby
-  if(!is.null(limitCnt)) params[["limitCnt"]] <- limitCnt
+  if(!is.null(limitCnt)) params[["limitCnt"]] <- as.character(limitCnt)
   params[["elements"]] <- elements
   
   # Interface, refer to
@@ -787,7 +787,7 @@ cimiss_obs_by_period <- function(minYear, maxYear, minMD, maxMD, dataCode="SURF_
 #' @return data frame of observations.
 #' @export
 #' @examples \dontrun{
-#'   r1 <- cimiss_obs_by_period(2015, 2018, "0501", "0505", staIds="54511")
+#'   r1 <- cimiss_obs_by_period_and_staIds(2015, 2018, "0501", "0505", staIds="54511")
 #' }
 #'
 cimiss_obs_by_period_and_staIds <- function(minYear, maxYear, minMD, maxMD, staIds="54511",
@@ -805,7 +805,7 @@ cimiss_obs_by_period_and_staIds <- function(minYear, maxYear, minMD, maxMD, staI
   params[["staIds"]] <- staIds
   if(!is.null(eleValueRanges)) params[["eleValueRanges"]] <- eleValueRanges
   if(is.null(orderby)) params[["orderby"]] <- "Datetime:ASC" else params[["orderby"]] <- orderby
-  if(!is.null(limitCnt)) params[["limitCnt"]] <- limitCnt
+  if(!is.null(limitCnt)) params[["limitCnt"]] <- as.character(limitCnt)
   params[["elements"]] <- elements
   
   # Interface, refer to
@@ -872,7 +872,7 @@ cimiss_obs_in_admin_by_period <- function(minYear, maxYear, minMD, maxMD, adminC
   params[["adminCodes"]] <- adminCodes
   if(!is.null(eleValueRanges)) params[["eleValueRanges"]] <- eleValueRanges
   if(is.null(orderby)) params[["orderby"]] <- "Datetime:ASC" else params[["orderby"]] <- orderby
-  if(!is.null(limitCnt)) params[["limitCnt"]] <- limitCnt
+  if(!is.null(limitCnt)) params[["limitCnt"]] <- as.character(limitCnt)
   params[["elements"]] <- elements
   
   # Interface, refer to
