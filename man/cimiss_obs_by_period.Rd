@@ -24,9 +24,9 @@ cimiss_obs_by_period(
 
 \item{transType:}{transform the return data frame's column type to datetime, numeric.}
 
-\item{minYear:}{start year, like "2005"}
+\item{minYear:}{start year, like 2005}
 
-\item{maxYear:}{end year, like "2015"}
+\item{maxYear:}{end year, like 2015}
 
 \item{minMD:}{start date, like "0125" is 01/25}
 

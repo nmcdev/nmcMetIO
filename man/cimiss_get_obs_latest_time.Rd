@@ -9,13 +9,13 @@ cimiss_get_obs_latest_time(dataCode = "SURF_CHN_MUL_HOR", latestTime = 6)
 \arguments{
 \item{dataCode}{: dataset code, like "SURF_CHN_MUL_HOR", "SURF_CHN_MUL_HOR_N", and so on.}
 
-\item{latestTime}{: latestTime, >0, like 2 is return the latest data in 2 hours.}
+\item{latestTime}{: latestTime > 0, like 2 is return the latest time in 2 hours.}
 }
 \value{
-data frame of observations.
+the latest time, like '20200216020000'
 }
 \description{
-\preformatted{Retrieve data by cimiss music REST API.
+\preformatted{Retrieve data latest times by cimiss music REST API.
 Refer to http://10.20.76.55/cimissapiweb/index_index.action
 }
 }

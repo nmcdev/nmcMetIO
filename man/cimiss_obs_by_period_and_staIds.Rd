@@ -60,7 +60,7 @@ Refer to http://10.20.76.55/cimissapiweb/index_index.action
 }
 \examples{
 \dontrun{
-  r1 <- cimiss_obs_by_period(2015, 2018, "0501", "0505", staIds="54511")
+  r1 <- cimiss_obs_by_period_and_staIds(2015, 2018, "0501", "0505", staIds="54511")
 }
 
 }

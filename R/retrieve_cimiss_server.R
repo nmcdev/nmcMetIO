@@ -85,7 +85,7 @@ cimiss_get_obs_latest_time <- function(dataCode="SURF_CHN_MUL_HOR", latestTime=6
   
   # retrieve parameters
   params = list()
-  params[["dataCode"]] <- dataCode
+  params[["dataCode"]] <- trimws(dataCode)
   params[["latestTime"]] <- as.character(latestTime)
   
   # Interface, refer to
@@ -93,7 +93,7 @@ cimiss_get_obs_latest_time <- function(dataCode="SURF_CHN_MUL_HOR", latestTime=6
   interfaceId = "getSurfLatestTime"
   
   # retrieve data
-  result <- get_http_result(interfaceId, params)
+  result <- get_http_result(interfaceId, lapply(params, trimws))
   if (is.null(result)) return(NULL)
   
   # extract data
@@ -143,7 +143,7 @@ cimiss_obs_by_time <- function(times,
   
   # retrieve parameters
   params = list()
-  params[["dataCode"]] <- dataCode
+  params[["dataCode"]] <- trimws(dataCode)
   params[["times"]] <- times
   if(!is.null(staLevels)) params[["staLevels"]] <- staLevels
   if(!is.null(eleValueRanges)) params[["eleValueRanges"]] <- eleValueRanges
@@ -157,7 +157,7 @@ cimiss_obs_by_time <- function(times,
   interfaceId <- "getSurfEleByTime"
   
   # retrieve data
-  result <- get_http_result(interfaceId, params)
+  result <- get_http_result(interfaceId, lapply(params, trimws))
   if (is.null(result)) return(NULL)
   
   # extract data
@@ -209,7 +209,7 @@ cimiss_obs_in_rect_by_time <- function(times, minLat, minLon, maxLat, maxLon,
   
   # retrieve parameters
   params = list()
-  params[["dataCode"]] <- dataCode
+  params[["dataCode"]] <- trimws(dataCode)
   params[["elements"]] <- elements
   params[["times"]] <- times
   params[["minLat"]] <- as.character(minLat)
@@ -226,7 +226,7 @@ cimiss_obs_in_rect_by_time <- function(times, minLat, minLon, maxLat, maxLon,
   interfaceId = "getSurfEleInRectByTime"
   
   # retrieve data
-  result <- get_http_result(interfaceId, params)
+  result <- get_http_result(interfaceId, lapply(params, trimws))
   if (is.null(result)) return(NULL)
   
   # extract data
@@ -280,7 +280,7 @@ cimiss_obs_in_rect_by_time_range <- function(timeRange, minLat, minLon, maxLat, 
   
   # retrieve parameters
   params = list()
-  params[["dataCode"]] <- dataCode
+  params[["dataCode"]] <- trimws(dataCode)
   params[["elements"]] <- elements
   params[["timeRange"]] <- timeRange
   params[["minLat"]] <- as.character(minLat)
@@ -296,7 +296,7 @@ cimiss_obs_in_rect_by_time_range <- function(timeRange, minLat, minLon, maxLat, 
   interfaceId <- "getSurfEleInRectByTimeRange"
 
   # retrieve data
-  result <- get_http_result(interfaceId, params)
+  result <- get_http_result(interfaceId, lapply(params, trimws))
   if (is.null(result)) return(NULL)
   
   # extract data
@@ -346,7 +346,7 @@ cimiss_obs_in_admin_by_time <- function(times, adminCodes="110000",
   
   # retrieve parameters
   params = list()
-  params[["dataCode"]] <- dataCode
+  params[["dataCode"]] <- trimws(dataCode)
   params[["elements"]] <- elements
   params[["times"]] <- times
   params[["adminCodes"]] <- adminCodes
@@ -360,7 +360,7 @@ cimiss_obs_in_admin_by_time <- function(times, adminCodes="110000",
   interfaceId = "getSurfEleInRegionByTime"
   
   # retrieve data
-  result <- get_http_result(interfaceId, params)
+  result <- get_http_result(interfaceId, lapply(params, trimws))
   if (is.null(result)) return(NULL)
   
   # extract data
@@ -411,7 +411,7 @@ cimiss_obs_in_admin_by_time_range <- function(timeRange, adminCodes="110000",
   
   # retrieve parameters
   params = list()
-  params[["dataCode"]] <- dataCode
+  params[["dataCode"]] <- trimws(dataCode)
   params[["elements"]] <- elements
   params[["times"]] <- timeRange
   params[["adminCodes"]] <- adminCodes
@@ -425,7 +425,7 @@ cimiss_obs_in_admin_by_time_range <- function(timeRange, adminCodes="110000",
   interfaceId = "getSurfEleInRegionByTimeRange"
   
   # retrieve data
-  result <- get_http_result(interfaceId, params)
+  result <- get_http_result(interfaceId, lapply(params, trimws))
   if (is.null(result)) return(NULL)
   
   # extract data
@@ -475,7 +475,7 @@ cimiss_obs_in_basin_by_time <- function(times, basinCodes="CJLY",
   
   # retrieve parameters
   params = list()
-  params[["dataCode"]] <- dataCode
+  params[["dataCode"]] <- trimws(dataCode)
   params[["elements"]] <- elements
   params[["times"]] <- times
   params[["basinCodes"]] <- basinCodes
@@ -489,7 +489,7 @@ cimiss_obs_in_basin_by_time <- function(times, basinCodes="CJLY",
   interfaceId = "getSurfEleInBasinByTime"
   
   # retrieve data
-  result <- get_http_result(interfaceId, params)
+  result <- get_http_result(interfaceId, lapply(params, trimws))
   if (is.null(result)) return(NULL)
   
   # extract data
@@ -540,7 +540,7 @@ cimiss_obs_in_basin_by_time_range <- function(timeRange, basinCodes="CJLY",
   
   # retrieve parameters
   params = list()
-  params[["dataCode"]] <- dataCode
+  params[["dataCode"]] <- trimws(dataCode)
   params[["elements"]] <- elements
   params[["timeRange"]] <- timeRange
   params[["basinCodes"]] <- basinCodes
@@ -554,7 +554,7 @@ cimiss_obs_in_basin_by_time_range <- function(timeRange, basinCodes="CJLY",
   interfaceId = "getSurfEleInBasinByTimeRange"
   
   # retrieve data
-  result <- get_http_result(interfaceId, params)
+  result <- get_http_result(interfaceId, lapply(params, trimws))
   if (is.null(result)) return(NULL)
   
   # extract data
@@ -604,7 +604,7 @@ cimiss_obs_by_time_and_staIds <- function(times,
   
   # retrieve parameters
   params = list()
-  params[["dataCode"]] <- dataCode
+  params[["dataCode"]] <- trimws(dataCode)
   if(!is.null(staLevels)) params[["staLevels"]] <- staLevels
   if(!is.null(eleValueRanges)) params[["eleValueRanges"]] <- eleValueRanges
   if(is.null(orderby)) params[["orderby"]] <- "Datetime:ASC" else params[["orderby"]] <- orderby
@@ -618,7 +618,7 @@ cimiss_obs_by_time_and_staIds <- function(times,
   interfaceId = "getSurfEleByTimeAndStaID"
   
   # retrieve data
-  result <- get_http_result(interfaceId, params)
+  result <- get_http_result(interfaceId, lapply(params, trimws))
   if (is.null(result)) return(NULL)
   
   # extract data
@@ -670,7 +670,7 @@ cimiss_obs_by_time_range_and_staIds <- function(timeRange,
   
   # retrieve parameters
   params = list()
-  params[["dataCode"]] <- dataCode
+  params[["dataCode"]] <- trimws(dataCode)
   params[["elements"]] <- elements
   params[["timeRange"]] <- timeRange
   if(!is.null(hourSeparate)) params[["hourSeparate"]] <- as.character(hourSeparate)
@@ -685,7 +685,7 @@ cimiss_obs_by_time_range_and_staIds <- function(timeRange,
   interfaceId = "getSurfEleByTimeRangeAndStaID"
   
   # retrieve data
-  result <- get_http_result(interfaceId, params)
+  result <- get_http_result(interfaceId, lapply(params, trimws))
   if (is.null(result)) return(NULL)
   
   # extract data
@@ -695,7 +695,6 @@ cimiss_obs_by_time_range_and_staIds <- function(timeRange,
   # return data
   return(data)
 }
-
 
 #' Retrieve station records from CIMISS by same period.
 #'
@@ -733,7 +732,7 @@ cimiss_obs_by_period <- function(minYear, maxYear, minMD, maxMD, dataCode="SURF_
   
   # retrieve parameters
   params = list()
-  params[["dataCode"]] <- dataCode
+  params[["dataCode"]] <- trimws(dataCode)
   params[["minYear"]] <- as.character(minYear)
   params[["maxYear"]] <- as.character(maxYear)
   params[["minMD"]] <- minMD
@@ -748,7 +747,7 @@ cimiss_obs_by_period <- function(minYear, maxYear, minMD, maxMD, dataCode="SURF_
   interfaceId <- "getSurfEleByInHistoryBySamePeriod"
   
   # retrieve data
-  result <- get_http_result(interfaceId, params)
+  result <- get_http_result(interfaceId, lapply(params, trimws))
   if (is.null(result)) return(NULL)
   
   # extract data
@@ -797,7 +796,7 @@ cimiss_obs_by_period_and_staIds <- function(minYear, maxYear, minMD, maxMD, staI
   
   # retrieve parameters
   params = list()
-  params[["dataCode"]] <- dataCode
+  params[["dataCode"]] <- trimws(dataCode)
   params[["minYear"]] <- as.character(minYear)
   params[["maxYear"]] <- as.character(maxYear)
   params[["minMD"]] <- minMD
@@ -813,7 +812,7 @@ cimiss_obs_by_period_and_staIds <- function(minYear, maxYear, minMD, maxMD, staI
   interfaceId <- "getSurfEleInHistoryBySamePeriodAndStaID"
   
   # retrieve data
-  result <- get_http_result(interfaceId, params)
+  result <- get_http_result(interfaceId, lapply(params, trimws))
   if (is.null(result)) return(NULL)
   
   # extract data
@@ -864,7 +863,7 @@ cimiss_obs_in_admin_by_period <- function(minYear, maxYear, minMD, maxMD, adminC
   
   # retrieve parameters
   params = list()
-  params[["dataCode"]] <- dataCode
+  params[["dataCode"]] <- trimws(dataCode)
   params[["minYear"]] <- as.character(minYear)
   params[["maxYear"]] <- as.character(maxYear)
   params[["minMD"]] <- minMD
@@ -880,7 +879,7 @@ cimiss_obs_in_admin_by_period <- function(minYear, maxYear, minMD, maxMD, adminC
   interfaceId <- "getSurfEleInHistoryBySamePeriodAndRegion"
   
   # retrieve data
-  result <- get_http_result(interfaceId, params)
+  result <- get_http_result(interfaceId, lapply(params, trimws))
   if (is.null(result)) return(NULL)
   
   # extract data
@@ -911,7 +910,7 @@ cimiss_get_model_latest_time <- function(dataCode="NAFP_FOR_FTM_HIGH_EC_ANEA", l
   
   # retrieve parameters
   params = list()
-  params[["dataCode"]] <- dataCode
+  params[["dataCode"]] <- trimws(dataCode)
   params[["latestTime"]] <- as.character(latestTime)
   
   # Interface, refer to
@@ -919,7 +918,7 @@ cimiss_get_model_latest_time <- function(dataCode="NAFP_FOR_FTM_HIGH_EC_ANEA", l
   interfaceId = "getNafpLatestTime"
   
   # retrieve data
-  result <- get_http_result(interfaceId, params)
+  result <- get_http_result(interfaceId, lapply(params, trimws))
   if (is.null(result)) return(NULL)
   
   # extract data
@@ -955,7 +954,7 @@ cimiss_model_grid <- function(time, dataCode="NAFP_FOR_FTM_HIGH_EC_GLB",
                               fcstLevel=0, fcstEle="TEF0", validTime=0, outList=FALSE) {
   # retrieve parameters
   params <- list()
-  params[['dataCode']] <- dataCode
+  params[['dataCode']] <- trimws(dataCode)
   params[['fcstEle']] <- fcstEle
   params[['time']] <- paste0(time,"0000")
   params[['fcstLevel']] <- as.character(fcstLevel)
@@ -966,7 +965,7 @@ cimiss_model_grid <- function(time, dataCode="NAFP_FOR_FTM_HIGH_EC_GLB",
   interfaceId <- "getNafpEleGridByTimeAndLevelAndValidtime"
   
   # retrieve data
-  result <- get_http_result(interfaceId, params)
+  result <- get_http_result(interfaceId, lapply(params, trimws))
   if (is.null(result)) return(NULL)
   
   # extract data
@@ -1034,7 +1033,7 @@ cimiss_model_grid_in_rect <- function(time, minLat, minLon, maxLat, maxLon,
                                       fcstLevel=0, fcstEle="TEF0", validTime=0, outList=FALSE) {
   # retrieve parameters
   params <- list()
-  params[['dataCode']] <- dataCode
+  params[['dataCode']] <- trimws(dataCode)
   params[['fcstEle']] <- fcstEle
   params[['time']] <- paste0(time,"0000")
   params[['minLat']] <- as.character(minLat)
@@ -1049,7 +1048,7 @@ cimiss_model_grid_in_rect <- function(time, minLat, minLon, maxLat, maxLon,
   interfaceId <- "getNafpEleGridInRectByTimeAndLevelAndValidtime"
 
   # retrieve data
-  result <- get_http_result(interfaceId, params)
+  result <- get_http_result(interfaceId, lapply(params, trimws))
   if (is.null(result)) return(NULL)
 
   # extract data
@@ -1115,7 +1114,7 @@ cimiss_model_staIds_by_time_and_level <- function(time,
                                                  staIds='54511') {
   # retrieve parameters
   params = list()
-  params[["dataCode"]] <- dataCode
+  params[["dataCode"]] <- trimws(dataCode)
   params[["time"]] <- time
   params[["fcstEle"]] <- fcstEle
   params[["minVT"]] <- as.character(minVT)
@@ -1128,7 +1127,7 @@ cimiss_model_staIds_by_time_and_level <- function(time,
   interfaceId = "getNafpEleByTimeAndLevelAndValidtimeRangeAndStaID"
   
   # retrieve data
-  result <- get_http_result(interfaceId, params)
+  result <- get_http_result(interfaceId, lapply(params, trimws))
   if (is.null(result)) return(NULL)
   
   # extract data
