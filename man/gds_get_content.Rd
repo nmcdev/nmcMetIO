@@ -4,15 +4,12 @@
 \alias{gds_get_content}
 \title{Retrieve data contents from micaps cassandra service.}
 \usage{
-gds_get_content(directory, filename = NULL, filter = "*.024")
+gds_get_content(directory, filename)
 }
 \arguments{
 \item{directory}{: the directory on the micaps service}
 
 \item{filename}{: the data filename, if not given, will use the lastest model run.}
-
-\item{filter}{: the filename filter pattern, when filename=NULL, this will be used to
-find the specified file.}
 }
 \value{
 raw, bytearray (convert with readBin)

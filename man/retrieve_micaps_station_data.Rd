@@ -4,7 +4,12 @@
 \alias{retrieve_micaps_station_data}
 \title{Retrieve micaps station data from cassandra service.}
 \usage{
-retrieve_micaps_station_data(directory, filename = NULL, filter = "*.000")
+retrieve_micaps_station_data(
+  directory,
+  filename = NULL,
+  filter = "*.000",
+  cache = TRUE
+)
 }
 \arguments{
 \item{directory}{: the directory on the micaps service}

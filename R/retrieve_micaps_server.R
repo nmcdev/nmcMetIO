@@ -5,6 +5,7 @@
 #' @param filter : the filename filter pattern, when filename=NULL, this will be used to
 #'                 find the specified file.
 #' @param outList : if TRUE, return list
+#' @param cache : if TRUE, cache retrieved data to local directory
 #'
 #'
 #' @return data.table, or list(x, y, z, level, time, fhour)
@@ -13,10 +14,22 @@
 #' @examples
 #'   data <- retrieve_micaps_model_grid("ECMWF_HR/TMP/850/", filename="19033020.024")
 #'
-retrieve_micaps_model_grid <- function(directory, filename=NULL, filter="*.024", outList=FALSE){
+retrieve_micaps_model_grid <- function(directory, filename=NULL, filter="*.024", outList=FALSE, cache=TRUE){
+  
+  # check cache file
+  if(is.null(filename)){
+    filename <- gds_get_latest_filename(directory, filter=filter)
+  }
+  if(cache){
+    cacheFile <- get_cache_file(directory, filename, name="MICAPS_DATA")
+    if(file.exists(cacheFile)){
+      re <- readRDS(cacheFile)
+      return(re)
+    }
+  }
   
   # retrieve data contents
-  msg <- gds_get_content(directory, filename=filename, filter=filter)
+  msg <- gds_get_content(directory, filename)
   if (is.null(msg)){
     return(NULL)
   }
@@ -183,8 +196,46 @@ retrieve_micaps_model_grid <- function(directory, filename=NULL, filter="*.024",
     }
   }
   
+  # check cache file
+  if(cache){
+    saveRDS(re, file=cacheFile)
+  }
+  
   # return result
   return(re)
+}
+
+
+#' Get model forecast time series.
+#'
+#' @param directory : the directory on the micaps service
+#' @param initTimeStr : the model forecast initial time string
+#' @param fhours : the model forecast hours
+#' @param allExists : all files should exist, or return None.
+#' @param cache : if TRUE, cache retrieved data to local directory
+#'
+#' @return 
+#' @export
+#'
+#' @examples
+#'   initTimeStr <- "20022820"
+#'   fhours <- seq(0, 72, by=6)
+#'   data <- retrieve_micaps_model_grids("ECMWF_HR/TMP/850/", initTimeStr, fhours)
+#'   
+retrieve_micaps_model_grids <- function(directory, initTimeStr, fhours, allExists=TRUE, cache=TRUE){
+  # loop every forecast time
+  data <- NULL
+  for(fhour in fhours){
+    filename <- paste(initTimeStr, sprintf("%03d", fhour), sep=".")
+    dataTemp <- retrieve_micaps_model_grid(directory, filename=filename, cache=cache)
+    if(allExists){
+      if(is.null(dataTemp)){
+        return(NULL)
+      }
+    }
+    data <- rbind(data, dataTemp)
+  }
+  return(data)
 }
 
 
@@ -232,13 +283,25 @@ retrieve_micaps_station_data_var_name <- function(vid){
 #' @examples
 #'   obs <- retrieve_micaps_station_data("SURFACE/PLOT_NATIONAL/", filename="20190406140000.000")
 #'
-retrieve_micaps_station_data <- function(directory, filename=NULL, filter="*.000"){
+retrieve_micaps_station_data <- function(directory, filename=NULL, filter="*.000", cache=TRUE){
+  # check cache file
+  if(is.null(filename)){
+    filename <- gds_get_latest_filename(directory, filter=filter)
+  }
+  if(cache){
+    cacheFile <- get_cache_file(directory, filename, name="MICAPS_DATA")
+    if(file.exists(cacheFile)){
+      records <- readRDS(cacheFile)
+      return(records)
+    }
+  }
+  
   # retrieve data contents
-  msg <- gds_get_content(directory, filename=filename, filter=filter)
+  msg <- gds_get_content(directory, filename)
   if (is.null(msg)){
     return(NULL)
   }
-  
+
   # define parse funtcion
   parse_bytes <- function(msg, ss, what){
     res <- readBin(msg[ii:(ii+ss-1)], what, size=ss)
@@ -283,10 +346,10 @@ retrieve_micaps_station_data <- function(directory, filename=NULL, filter="*.000
   
   # maping variable type and define records data.frame
   varMap <- list()
-  records <- data.frame(ID=integer(record_numb)+NA,
-                        lon=numeric(record_numb)+NA,
-                        lat=numeric(record_numb)+NA,
-                        time=time)
+  records <- tibble::tibble(ID=integer(record_numb)+NA,
+                            lon=numeric(record_numb)+NA,
+                            lat=numeric(record_numb)+NA,
+                            time=time)
   for(i in 1:record_nvar){
     varID <- retrieve_micaps_station_data_var_name(parse_bytes(msg, 2, "integer"))
     varType <- parse_bytes(msg, 2, "integer")
@@ -309,6 +372,11 @@ retrieve_micaps_station_data <- function(directory, filename=NULL, filter="*.000
       records[i,vid] <- parse_bytes(
         msg, varMap[[vid]][[1]], varMap[[vid]][[2]])
     }
+  }
+  
+  # check cache file
+  if(cache){
+    saveRDS(records, file=cacheFile)
   }
   
   # return record

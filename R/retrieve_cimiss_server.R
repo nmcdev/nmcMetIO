@@ -12,7 +12,6 @@
 #' @return json list.
 #' @export
 #'
-#' @examples
 get_http_result <- function(interfaceId, params){
   
   # set MUSIC server dns and user information
@@ -50,7 +49,6 @@ get_http_result <- function(interfaceId, params){
 #' @return data frame of observations.
 #' @export
 #'
-#' @examples
 cimiss_obs_convert_type <- function(obsData){
   for (name in colnames(obsData)){
     if (startsWith(name, "Station")) next

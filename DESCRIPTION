@@ -14,6 +14,7 @@ LazyData: true
 Imports: 
     configr,
     dplyr,
+    tibble,
     readr,
     jsonlite,
     stringr,

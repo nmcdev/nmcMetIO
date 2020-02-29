@@ -8,7 +8,8 @@ retrieve_micaps_model_grid(
   directory,
   filename = NULL,
   filter = "*.024",
-  outList = FALSE
+  outList = FALSE,
+  cache = TRUE
 )
 }
 \arguments{
@@ -20,6 +21,8 @@ retrieve_micaps_model_grid(
 find the specified file.}
 
 \item{outList}{: if TRUE, return list}
+
+\item{cache}{: if TRUE, cache retrieved data to local directory}
 }
 \value{
 data.table, or list(x, y, z, level, time, fhour)
