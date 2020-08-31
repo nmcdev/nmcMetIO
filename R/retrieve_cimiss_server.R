@@ -60,7 +60,34 @@ cimiss_obs_convert_type <- function(obsData){
     }
     obsData[[name]] <- as.numeric(obsData[[name]])
   }
-  return(obsData)
+  return(tibble::as_tibble(obsData))
+}
+
+
+#' Download data file from URL
+#'
+#' @param url : file URL.
+#' @param filename : local file name.
+#' @param outdir : local directory.
+#'
+#' @return
+#' @export
+#'
+#' @examples
+cimiss_download_file <- function(url, filename, outdir='.'){
+  
+  # check output directory
+  if (!dir.exists(outdir)) {
+    print(paste0(outdir, ' not exist. It will be created.'))
+    dir.create(outdir)
+  }
+  
+  # construct output file path
+  if (RCurl::url.exists(url)) {
+    outfile = file.path(outdir, filename)
+    download.file(url, outfile, mode='wb')
+    print(paste0('Download file to ', outfile))
+  }
 }
 
 
@@ -886,6 +913,55 @@ cimiss_obs_in_admin_by_period <- function(minYear, maxYear, minMD, maxMD, adminC
   
   # return data
   return(data)
+}
+
+
+#' Retrieve CMPAS data file URL or download to local directory.
+#'
+#' @param times : times for retrieve, 'YYYYMMDDHHMISS,YYYYMMDDHHMISS,...'
+#' @param dataCode : dataset code, like "SURF_CMPA_RT_NC, SURF_CMPA_NRT_NC, ...'
+#' @param outdir : local output directory.
+#' @param limitCnt : the number of maximum returned files.
+#' @param resolution : the CMPAS resolution, 0P05 for 0.5 degree,
+#'                     0P01 for 0.1 degree, others for all.
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#'      files <- cimiss_cmpas_by_time('20200831000000')
+cimiss_cmpas_by_time <- function(times, dataCode="SURF_CMPA_RT_NC",
+                                 outdir=NULL, limitCnt=NULL, resolution='0P05'){
+  
+  # retrieve parameters
+  params = list()
+  params[["dataCode"]] <- trimws(dataCode)
+  params[["times"]] <- times
+  if(!is.null(limitCnt)) params[["limitCnt"]] <- as.character(limitCnt)
+  
+  # Interface, refer to
+  # http://10.20.76.55/cimissapiweb/apicustomapiclassdefine_list.action?ids=getSurfFileByTime&apiclass=SURF_API
+  interfaceId <- "getSurfFileByTime"
+  
+  # retrieve data
+  result <- get_http_result(interfaceId, lapply(params, trimws))
+  if (is.null(result)) return(NULL)
+  
+  # select resolution
+  result = result$DS
+  resolution = toupper(resolution)
+  if (resolution %in% list('0P05', '0P01')){
+    result = dplyr::filter(result, grepl(paste0('_',trimws(resolution),'_'), FILE_NAME))
+  }
+  
+  # return
+  if (is.null(outdir)) {
+    return(result)
+  } else {
+    for (i in 1:nrow(result)) {
+      cimiss_download_file(result$FILE_URL[i], result$FILE_NAME[i], outdir=outdir)
+    }
+  }
 }
 
 

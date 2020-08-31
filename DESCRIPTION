@@ -22,6 +22,7 @@ Imports:
     RProtoBuf,
     raster,
     data.table,
-    fields
+    fields,
+    RCurl
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.1
