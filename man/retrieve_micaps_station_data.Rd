@@ -8,13 +8,13 @@ retrieve_micaps_station_data(
   directory,
   filename = NULL,
   filter = "*.000",
-  cache = TRUE
+  cache = FALSE
 )
 }
 \arguments{
 \item{directory}{: the directory on the micaps service}
 
-\item{filename}{: the data filename, if not given, will use the lastest model run.}
+\item{filename}{: the data filename, if not given, will use the latest model run.}
 
 \item{filter}{: the filename filter pattern, when filename=NULL, this will be used to
 find the specified file.}

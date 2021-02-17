@@ -1,0 +1,19 @@
+---
+title: "retrieve_cimiss_dataset"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{retrieve_cimiss_dataset}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(nmcMetIO)
+```

@@ -14,13 +14,13 @@
 #'
 get_http_result <- function(interfaceId, params){
   
-  # set MUSIC server dns and user information
+  # get configure information
   config = get_config_from_rcfile()
   if (is.null(config)) {
     return(NULL)
   }
   
-  # construct URL
+  # construct URL with MUSIC server dns and user information
   url = paste0('http://', config$CIMISS$DNS, '/cimiss-web/api?userId=', 
                config$CIMISS$USER_ID, '&pwd=', config$CIMISS$PASSWORD,
                '&interfaceId=', interfaceId)

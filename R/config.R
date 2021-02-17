@@ -25,7 +25,7 @@ get_config_from_rcfile <- function(){
 }
 
 
-#' Get the cache file pathname.
+#' Get the cache file path name.
 #'
 #' @param subDir : sub directory string.
 #' @param filename :  cache filename
@@ -39,32 +39,37 @@ get_cache_file <- function(subDir, filename, name=NULL, cacheClear=TRUE){
   config <- get_config_from_rcfile()
   
   # get cache file directory
-  if(is.null(config[["MICAPS"]][["CACHE_DIR"]])){
+  # 检查配置文件中是否配置了CACHE参数, 获得缓存目录;
+  # 如果没有, 默认为配置文件所在的目录.
+  if(is.null(config[["CACHE"]][["CACHE_DIR"]])){
     cacheDir <- file.path(config[['Directory']], "cache")
   }else{
-    cacheDir <- file.path(config[["MICAPS"]][["CACHE_DIR"]], "cache")
+    cacheDir <- file.path(config[["CACHE"]][["CACHE_DIR"]], "cache")
   }
   
-  # add cache name, if neccessary
+  # add cache name, if necessary
   if(!is.null(name)){
     cacheDir <- file.path(cacheDir, name)
   }
   
-  # Use the week number of year as subdir
-  cacheSubDir1 <- file.path(cacheDir, format(Sys.time(), "%Y%U"))
-  cacheSubDir2 <- file.path(cacheSubDir1, subDir)
-  if (!dir.exists(cacheSubDir2)){
-    dir.create(cacheSubDir2, recursive=TRUE)
-  }
-  
   # clear old cache folder
+  # 如果设置了清除缓存, 则会将缓存文件逐周存放, 并删除过去的周文件夹. 
   if(cacheClear){
+    # Use the week number of year as subdirectory
+    cacheSubDir1 <- file.path(cacheDir, format(Sys.time(), "%Y%U"))
+    cacheSubDir2 <- file.path(cacheSubDir1, subDir)
+    if (!dir.exists(cacheSubDir2)){
+      dir.create(cacheSubDir2, recursive=TRUE)
+    }
+    
     for(dir in list.dirs(cacheDir, recursive = FALSE)) {
       if(dir == cacheSubDir1) {
         next
       }
       unlink(dir, recursive = TRUE)
     }
+  }else{
+    cacheSubDir2 <- file.path(cacheDir, subDir)
   }
   
   # return cache file pathname

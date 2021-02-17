@@ -6,8 +6,8 @@ Authors@R:
            family = "Dai",
            role = c("aut", "cre"),
            email = "kan.dai@foxmail.com")
-Description: Function used to retrieve meteorological data, such as
-    micaps format, CIMISS and so on.
+Description: Function used to meteorological data retrieve (such as
+    MICAPS, CMADass, CIMISS...), processing, calculation and so on.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -23,6 +23,12 @@ Imports:
     raster,
     data.table,
     fields,
-    RCurl
+    RCurl,
+    uuid,
+    digest
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

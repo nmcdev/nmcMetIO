@@ -2,7 +2,7 @@
 % Please edit documentation in R/config.R
 \name{get_cache_file}
 \alias{get_cache_file}
-\title{Get the cache file pathname.}
+\title{Get the cache file path name.}
 \usage{
 get_cache_file(subDir, filename, name = NULL, cacheClear = TRUE)
 }
@@ -19,5 +19,5 @@ get_cache_file(subDir, filename, name = NULL, cacheClear = TRUE)
 
 }
 \description{
-Get the cache file pathname.
+Get the cache file path name.
 }

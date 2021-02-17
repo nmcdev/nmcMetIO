@@ -14,7 +14,7 @@
 #' @examples
 #'   data <- retrieve_micaps_model_grid("ECMWF_HR/TMP/850/", filename="19033020.024")
 #'
-retrieve_micaps_model_grid <- function(directory, filename=NULL, filter="*.024", outList=FALSE, cache=TRUE){
+retrieve_micaps_model_grid <- function(directory, filename=NULL, filter="*.024", outList=FALSE, cache=FALSE){
   
   # check cache file
   if(is.null(filename)){
@@ -222,7 +222,7 @@ retrieve_micaps_model_grid <- function(directory, filename=NULL, filter="*.024",
 #'   fhours <- seq(0, 72, by=6)
 #'   data <- retrieve_micaps_model_grids("ECMWF_HR/TMP/850/", initTimeStr, fhours)
 #'   
-retrieve_micaps_model_grids <- function(directory, initTimeStr, fhours, allExists=TRUE, cache=TRUE){
+retrieve_micaps_model_grids <- function(directory, initTimeStr, fhours, allExists=TRUE, cache=FALSE){
   # loop every forecast time
   data <- NULL
   for(fhour in fhours){
@@ -246,22 +246,31 @@ retrieve_micaps_model_grids <- function(directory, initTimeStr, fhours, allExist
 #' @return : variable name.
 #'
 retrieve_micaps_station_data_var_name <- function(vid){
-  # define varaible name dictionary
-  varNames <- list('1'='lon', '2'='lat', '3'='alt', '4'='grade', '5'='type',
-                   '201'='wAngle', '203'='wSpeed',
-                   '205'='wAngle_1m_avg', '207'='wSpeed_1m_avg',
-                   '209'='wAngle_2m_avg', '211'='wSpeed_2m_avg',
-                   '213'='wAngle_10m_avg', '215'='wSpeed_10m_avg',
-                   '401'='MSLP', '403'='pres_3h_trend', '405'='pres_24h_trend',
-                   '407'='pres', '409'='pres_max', '411'='pres_min',
-                   '601'='temp', '603'='temp_max','605'='temp_min', '607'='temp_24h_trend',
-                   '609'='temp_24h_max', '611'='temp_24h_min', '613'='temp_day_avg',
-                   '801'='td', '1001'='rain', '1003'='rain_1h', '1005'='rain_3h',
-                   '1007'='rain_6h', '1009'='rain_12h', '1011'='rain_24h', '1013'='rain_day',
-                   '1201'='vis_1m_avg', '1203'='vis_10m_avg', '1205'='vis_min', '1207'='vis',
-                   '1401'='tcc', '1403'='tcc_low', '1405'='cloud_base_height',
-                   '1601'='weather', '1603'='weather_1_past', '1605'='weather_2_past')
-  name <- varNames[[as.character(vid)]]
+  # define variable name dictionary
+  varNames <- list('1'='lon', '2'='lat', '3'='alt', '4'='grade', '5'='type', '21'='name',
+                   '201'='Wind_angle', '203'='Wind_speed', '205'='Wind_angle_1m_avg', '207'='Wind_speed_1m_avg',
+                   '209'='Wind_angle_2m_avg', '211'='Wind_speed_2m_avg', '213'='Wind_angle_10m_avg', '215'='Wind_speed_10m_avg',
+                   '217'='Wind_angle_max', '219'='Wind_speed_max', '221'='Wind_angle_instant', '223'='Wind_speed_instant',
+                   '225'='Gust_angle', '227'='Gust_speed', '229'='Gust_angle_6h', '231'='Gust_speed_6h',
+                   '233'='Gust_angle_12h', '235'='Gust_speed_12h', '237'='Wind_power', 
+                   '401'='Sea_level_pressure', '403'='Pressure_3h_trend', '405'='Pressure_24h_trend',
+                   '407'='Station_pressure', '409'='Pressure_max', '411'='Pressure_min', '413'='Pressure',
+                   '415'='Pressure_day_avg', '417'='SLP_day_avg', '419'='Hight', '421'='Geopotential_hight',
+                   '601'='Temp', '603'='Temp_max', '605'='Temp_min', '607'='Temp_24h_trend', 
+                   '609'='Temp_24h_max', '611':'Temp_24h_min', '613'='Temp_dav_avg',
+                   '801'='Dewpoint', '803'='Dewpoint_depression', '805'='Relative_humidity',
+                   '807'='Relative_humidity_min', '809'='Relative_humidity_day_avg', 
+                   '811'='Water_vapor_pressure', '813'='Water_vapor_pressure_day_avg',
+                   '1001'='Rain', '1003'='Rain_1h', '1005'='Rain_3h', '1007'='Rain_6h', '1009'='Rain_12h', '1013'='Rain_day',
+                   '1015'='Rain_20-08', '1017'='Rain_08-20', '1019'='Rain_20-20', '1021'='Rain_08-08',
+                   '1023'='Evaporation', '1025'='Evaporation_large', '1027'='Precipitable_water',
+                   '1201'='Vis_1min', '1203'='Vis_10min', '1205'='Vis_min', '1207'='Vis_manual',
+                   '1401'='Total_cloud_cover', '1403'='Low_cloud_cover', '1405'='Cloud_base_hight',
+                   '1407'='Low_cloud', '1409'='Middle_cloud', '1411'='High_cloud',
+                   '1413'='TCC_day_avg', '1415'='LCC_day_avg', '1417'='Cloud_cover', '1419'='Cloud_type',
+                   '1601'='Weather_current', '1603'='Weather_past_1', '1605'='Weather_past_2',
+                   '2001'='Surface_temp', '2003'='Surface_temp_max', '2005'='Surface_temp_min')
+  name <- varNames[[tolower(as.character(vid))]]
   if (is.null(name)) {
     return(paste('var_', as.character(vid), sep=''))
   } else {
@@ -273,7 +282,7 @@ retrieve_micaps_station_data_var_name <- function(vid){
 #' Retrieve micaps station data from cassandra service.
 #'
 #' @param directory : the directory on the micaps service
-#' @param filename : the data filename, if not given, will use the lastest model run.
+#' @param filename : the data filename, if not given, will use the latest model run.
 #' @param filter : the filename filter pattern, when filename=NULL, this will be used to
 #'                 find the specified file.
 #'
@@ -283,7 +292,7 @@ retrieve_micaps_station_data_var_name <- function(vid){
 #' @examples
 #'   obs <- retrieve_micaps_station_data("SURFACE/PLOT_NATIONAL/", filename="20190406140000.000")
 #'
-retrieve_micaps_station_data <- function(directory, filename=NULL, filter="*.000", cache=TRUE){
+retrieve_micaps_station_data <- function(directory, filename=NULL, filter="*.000", cache=FALSE){
   # check cache file
   if(is.null(filename)){
     filename <- gds_get_latest_filename(directory, filter=filter)
@@ -302,7 +311,7 @@ retrieve_micaps_station_data <- function(directory, filename=NULL, filter="*.000
     return(NULL)
   }
 
-  # define parse funtcion
+  # define parse function
   parse_bytes <- function(msg, ss, what){
     res <- readBin(msg[ii:(ii+ss-1)], what, size=ss)
     ii <<- ii + ss  # update variables
@@ -334,7 +343,7 @@ retrieve_micaps_station_data <- function(directory, filename=NULL, filter="*.000
   #
   # read data section
   
-  # the number of records and reocord variables
+  # the number of records and record variables
   record_numb <- parse_bytes(msg, 4, "integer")
   record_nvar <- parse_bytes(msg, 2, "integer")
   

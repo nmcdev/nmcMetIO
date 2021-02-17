@@ -9,7 +9,7 @@ retrieve_micaps_model_grids(
   initTimeStr,
   fhours,
   allExists = TRUE,
-  cache = TRUE
+  cache = FALSE
 )
 }
 \arguments{

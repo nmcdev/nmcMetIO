@@ -9,7 +9,7 @@ retrieve_micaps_model_grid(
   filename = NULL,
   filter = "*.024",
   outList = FALSE,
-  cache = TRUE
+  cache = FALSE
 )
 }
 \arguments{
