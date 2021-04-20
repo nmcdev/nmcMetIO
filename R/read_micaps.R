@@ -73,9 +73,10 @@ read_micaps_3 <- function(filename) {
   dim(txt) <- c(nElements+4,number)
   
   # extract data information to data.frame
-  dataV <- data.frame(ID=txt[1,],lon=txt[2,],lat=txt[3,],alt=txt[4,])
+  dataV <- data.frame(ID=txt[1,],lon=as.numeric(txt[2,]),
+                      lat=as.numeric(txt[3,]),alt=as.numeric(txt[4,]))
   for (ii in 1:nElements) {
-    dataV[,paste0("V",ii)] <- txt[ii+4,]
+    dataV[,paste0("V",ii)] <- as.numeric(txt[ii+4,])
   }
   
   # return data

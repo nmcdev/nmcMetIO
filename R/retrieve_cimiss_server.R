@@ -73,7 +73,6 @@ cimiss_obs_convert_type <- function(obsData){
 #' @return
 #' @export
 #'
-#' @examples
 cimiss_download_file <- function(url, filename, outdir='.'){
   
   # check output directory

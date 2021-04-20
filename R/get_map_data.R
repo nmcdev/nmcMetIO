@@ -4,7 +4,7 @@
 #' @param major_dim major image dimension, in pixels. 
 #'                  Default is 400 (meaning larger dimension will be 400 pixels)
 #'
-#' @return list with items "width", "height", and "size" (string of format "<width>,<height>")
+#' @return list with items "width", "height", and "size" (string of format "width,height")
 #' @export
 #'
 #' @examples

@@ -13,7 +13,7 @@ define_image_size(bbox, major_dim = 400)
 Default is 400 (meaning larger dimension will be 400 pixels)}
 }
 \value{
-list with items "width", "height", and "size" (string of format "<width>,<height>")
+list with items "width", "height", and "size" (string of format "width,height")
 }
 \description{
 Define image size variables from the given bounding box coordinates.
