@@ -90,6 +90,7 @@ read_micaps_3 <- function(filename) {
 #' Read micaps type 4 file (grid).
 #'
 #' @param filename : file name.
+#' @param outList : if TRUE, return list, or return data.table
 #'
 #' @return : a list include:
 #'         headInfo, head information
@@ -98,14 +99,15 @@ read_micaps_3 <- function(filename) {
 #'         level, data level
 #'         lon, grid longitude
 #'         lat, grid laitude
-#          dataV, a matrix with dimension c(nlon,nlat)
+#'         dataV, a matrix with dimension c(nlon,nlat)
+#'         or data.table.
 #' @export
 #'
 #' @examples
 #'
 #' dataV <- read_micaps_4("Z:\\data\\newecmwf_grib\\pressure\\17010108.006")
 #'
-read_micaps_4 <- function(filename) {
+read_micaps_4 <- function(filename, outList=TRUE) {
   
   # check file, if not exist, then return empty list.
   if (!file.exists(filename)) return(NULL)
@@ -128,8 +130,9 @@ read_micaps_4 <- function(filename) {
   month <- as.integer(txt[5])
   day   <- as.integer(txt[6])
   hour  <- as.integer(txt[7])
-  dataTime <- ISOdate(year,month,day,hour=hour)
+  initTime <- ISOdatetime(year,month,day,hour,0,0)
   fhour <- as.integer(txt[8])
+  dataTime <- initTime + fhour*3600
   
   # level
   level <- as.integer(txt[9])
@@ -145,8 +148,8 @@ read_micaps_4 <- function(filename) {
   nlat <- as.integer(txt[17])
   
   # construct grid
-  lon <- slon + seq(0,nlon)*xs
-  lat <- slat + seq(0,nlat)*ys
+  lon <- slon + seq(0,nlon-1)*xs
+  lat <- slat + seq(0,nlat-1)*ys
   
   # contour information
   cnInterval <- as.numeric(txt[18])
@@ -168,13 +171,24 @@ read_micaps_4 <- function(filename) {
   }
   
   # return data
-  return(list(headInfo=headInfo,
-              dataTime=dataTime,
-              fhour=fhour,
-              level=level,
-              lon=lon,
-              lat=lat,
-              dataV=dataV))
+  if (outList) {
+    re <- list(headInfo=headInfo,
+               dataTime=dataTime,
+               fhour=fhour,
+               level=level,
+               lon=lon,
+               lat=lat,
+               dataV=dataV)
+  } else {
+    re <- data.table::data.table(lon=rep(lon, length(lat)),
+                                 lat=rep(lat, each=length(lon)),
+                                 lev=level, time=dataTime,
+                                 initTime=initTime, fhour=fhour,
+                                 var1=as.vector(dataV))
+    data.table::setkeyv(re, c("lon", "lat", "lev", "time"))
+  }
+  
+  return(re)
 }
 
 
