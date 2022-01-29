@@ -2,7 +2,7 @@
 % Please edit documentation in R/retrieve_cmadaas.R
 \name{get_rest_result}
 \alias{get_rest_result}
-\title{Get the http result from CAMDaaS REST api service}
+\title{Get the http result from CMADaaS REST api service}
 \usage{
 get_rest_result(interface_id, params, urlOnly = FALSE)
 }

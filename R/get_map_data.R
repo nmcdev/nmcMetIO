@@ -39,7 +39,7 @@ define_image_size <- function(bbox, major_dim = 400) {
 #'
 find_image_coordinates <- function(long, lat, bbox, image_width, image_height) {
   x_img <- round(image_width * (long - min(bbox$p1$long, bbox$p2$long)) / abs(bbox$p1$long - bbox$p2$long))
-  y_img <- round(image_height * (lat - min(bbox$p1$lat, bbox$p2$lat)) / abs(bbox$p1$lat - bbox$p2$lat))
+  y_img <- round(image_height * (max(bbox$p1$lat, bbox$p2$lat)-lat) / abs(bbox$p1$lat - bbox$p2$lat))
   list(x = x_img, y = y_img)
 }
 

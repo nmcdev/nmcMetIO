@@ -192,6 +192,108 @@ read_micaps_4 <- function(filename, outList=TRUE) {
 }
 
 
+#' Read micaps type 11 file (grid).
+#'
+#' @param filename : file name.
+#' @param outList : if TRUE, return list, or return data.table
+#'
+#' @return : a list include:
+#'         headInfo, head information
+#'         dataTime, data date time
+#'         fhour, forecast hours
+#'         level, data level
+#'         lon, grid longitude
+#'         lat, grid laitude
+#'         dataU, a matrix with dimension c(nlon,nlat)
+#'         dataV, a matrix with dimension c(nlon,nlat)
+#'         or data.table.
+#' @export
+#'
+#' @examples
+#'
+#' dataV <- read_micaps_11("Z:\\data\\newecmwf_grib\\pressure\\17010108.006")
+#'
+read_micaps_11 <- function(filename, outList=TRUE) {
+  
+  # check file, if not exist, then return empty list.
+  if (!file.exists(filename)) return(NULL)
+  
+  # read all lines
+  txt <- readr::read_file(filename,locale=readr::locale(encoding="UTF-8"))
+  
+  # get character vector
+  txt <- unlist(strsplit(stringr::str_trim(txt), "+[ \n\t\r]+"))
+  
+  # extract information
+  headInfo <- txt[3]
+  
+  # date & time
+  if (nchar(txt[4]) < 4) {
+    year <- as.integer(txt[4]) + 2000
+  } else {
+    year <- as.integer(txt[4])
+  }
+  month <- as.integer(txt[5])
+  day   <- as.integer(txt[6])
+  hour  <- as.integer(txt[7])
+  initTime <- ISOdatetime(year,month,day,hour,0,0)
+  fhour <- as.integer(txt[8])
+  dataTime <- initTime + fhour*3600
+  
+  # level
+  level <- as.integer(txt[9])
+  
+  # grid information
+  xs <- as.numeric(txt[10])
+  ys <- as.numeric(txt[11])
+  slon <- as.numeric(txt[12])
+  elon <- as.numeric(txt[13])
+  slat <- as.numeric(txt[14])
+  elat <- as.numeric(txt[15])
+  nlon <- as.integer(txt[16])
+  nlat <- as.integer(txt[17])
+  
+  # construct grid
+  lon <- slon + seq(0,nlon-1)*xs
+  lat <- slat + seq(0,nlat-1)*ys
+  
+  # cut and reform data
+  dataU <- as.numeric(txt[18:(18+nlon*nlat-1)])
+  dim(dataU) <- c(nlon,nlat)
+  dataV <- as.numeric(txt[(18+nlon*nlat):length(txt)])
+  dim(dataV) <- c(nlon,nlat)
+  
+  # re-arrange latitude order
+  if ((lat[2]-lat[1]) < 0) {
+    lat <- rev(lat)
+    dataU <- dataU[,nlat:1]
+    dataV <- dataV[,nlat:1]
+  }
+  
+  # return data
+  if (outList) {
+    re <- list(headInfo=headInfo,
+               dataTime=dataTime,
+               fhour=fhour,
+               level=level,
+               lon=lon,
+               lat=lat,
+               dataU=dataU,
+               dataV=dataV)
+  } else {
+    re <- data.table::data.table(lon=rep(lon, length(lat)),
+                                 lat=rep(lat, each=length(lon)),
+                                 lev=level, time=dataTime,
+                                 initTime=initTime, fhour=fhour,
+                                 var1=as.vector(dataU),
+                                 var2=as.vector(dataV))
+    data.table::setkeyv(re, c("lon", "lat", "lev", "time"))
+  }
+  
+  return(re)
+}
+
+
 #' Read micaps 14 file.
 #'
 #' @param fileName : file name.

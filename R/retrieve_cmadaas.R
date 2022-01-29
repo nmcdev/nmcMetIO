@@ -112,8 +112,8 @@ get_rest_result <- function(interface_id, params, urlOnly=FALSE){
 #' @examples
 #'   data <- cmadass_model_grid("2020041900")
 #' 
-cmadass_model_grid <- function(time, dataCode="NAFP_CRA40_FTM_6HOR_ANA", fcstEle="GPH", limit=NULL,
-                               fcstLevel=500, levelType="-", validTime=0, outList=FALSE) {
+cmadass_model_grid <- function(time, dataCode="NAFP_FOR_FTM_HIGH_EC_GLB", fcstEle="TEM", limit=NULL,
+                               fcstLevel=0, levelType="1", validTime=3, outList=FALSE) {
   # retrieve parameters
   params <- list()
   params[['dataCode']] <- dataCode
